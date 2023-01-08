@@ -13,14 +13,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Pedidos',
-      theme: ThemeData(
-       
-        primarySwatch: Colors.blue,
-      ),
-      home: const inicio()
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Pedidos',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const inicio());
   }
 }
-

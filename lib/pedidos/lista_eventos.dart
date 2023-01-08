@@ -15,26 +15,37 @@ class _lista_eventosState extends State<lista_eventos> {
     return Scaffold(
       body: ListView.builder(
         itemBuilder: (context, index) {
-          return 
-              Card(
-                child: ListTile(  
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder:(context)=>NuevoPedido()));
-                  },
-                  title: Text("evento 10-2-2023 $index"),
-                  trailing: SizedBox(
-                    width: 100,
-                   // child: IconButton(onPressed:(){ } ,icon: Icon(Icons.delete)),
-                  ),
+          return InkWell(
+            // permite la utilizacion del evento onLongPress
+            onLongPress: () {
+              print("you got it ");
+            },
+            child: Card(
+              child: ListTile(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const NuevoPedido()));
+                },
+                title: Text("evento 10-2-2023 $index"),
+                // ignore: prefer_const_constructors
+                trailing: SizedBox(
+                  width: 100,
+                  // child: IconButton(onPressed:(){ } ,icon: Icon(Icons.delete)),
                 ),
-              );
+              ),
+            ),
+          );
         },
         itemCount: 5,
       ),
-      floatingActionButton:
-          FloatingActionButton(onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder:(context)=>NuevoEvento()));
-          }, child: const Icon(Icons.add)),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => NuevoEvento()));
+          },
+          child: const Icon(Icons.add)),
     );
   }
 }

@@ -9,22 +9,22 @@ class NuevoPedido extends StatefulWidget {
 }
 
 class _NuevoPedidoState extends State<NuevoPedido> {
-  List<String> productos=[];
-  List<int> ids=[];
-  List<int> cantidades=[];
+  List<String> productos = [];
+  List<int> ids = [];
+  List<int> cantidades = [];
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     data();
   }
-  data(){
-   productos = ["product 1", "product 2", "product 3"];
-   ids = [22,  55, 33];
-  cantidades = List.filled(productos.length, 0);
+
+  data() {
+    productos = ["product 1", "product 2", "product 3"];
+    ids = [22, 55, 33];
+    cantidades = List.filled(productos.length, 0);
   }
-  
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,8 +33,8 @@ class _NuevoPedidoState extends State<NuevoPedido> {
       ),
       body: ListView.builder(
         itemBuilder: (context, index) {
-          return Card( 
-            color: cantidades[index]>0 ? Colors.green : Colors.white,
+          return Card(
+            color: cantidades[index] > 0 ? Colors.green : Colors.white,
             child: ListTile(
               title: Text(productos[index]),
               trailing: SizedBox(
@@ -60,15 +60,16 @@ class _NuevoPedidoState extends State<NuevoPedido> {
                     IconButton(
                         onPressed: () {
                           setState(() {
-                            if (cantidades[index]==0){
+                            if (cantidades[index] == 0) {
                               num(cantidades[index], true, index);
-                              
-                            }else{
-                            cantidades[index]=0;
+                            } else {
+                              cantidades[index] = 0;
                             }
                           });
                         },
-                        icon: const Icon(Icons.shopping_cart),color: cantidades[index]>0 ? Colors.white : Colors.grey),
+                        icon: const Icon(Icons.shopping_cart),
+                        color:
+                            cantidades[index] > 0 ? Colors.white : Colors.grey),
                   ],
                 ),
               ),
@@ -79,30 +80,34 @@ class _NuevoPedidoState extends State<NuevoPedido> {
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
-          enviarDatos();
+            enviarDatos();
             // Navigator.push(context, MaterialPageRoute(builder:(context)=>ConfirmarPedido() ));
           },
           child: const Icon(Icons.shopping_cart)),
     );
   }
-    enviarDatos(){
-      final List<String> products=[];
-      final List<int> id=[];
-      final List<int> cantidad=[];
-       bool estado=false;
-      for(int i=0; i<productos.length;i++){
-          if (cantidades[i]>0){
-            products.add(productos[i]);
-            id.add(ids[i]);
-            cantidad.add(cantidades[i]);
-            estado=true;
-          }
+
+  enviarDatos() {
+    final List<String> products = [];
+    final List<int> id = [];
+    final List<int> cantidad = [];
+    bool estado = false;
+    for (int i = 0; i < productos.length; i++) {
+      if (cantidades[i] > 0) {
+        products.add(productos[i]);
+        id.add(ids[i]);
+        cantidad.add(cantidades[i]);
+        estado = true;
       }
-      estado?
-      Navigator.push(context, MaterialPageRoute(builder:(context)=>ConfirmarPedido( productos:products,id:id,cantidades:cantidad) ))
-      : estado=false;
-      
     }
+    estado
+        ? Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ConfirmarPedido(
+                    productos: products, id: id, cantidades: cantidad)))
+        : estado = false;
+  }
 
   num(int numero, bool estado, int index) {
     estado
