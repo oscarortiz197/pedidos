@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-
-import '../componentes/texfield.dart';
+import 'package:pedidos/pedidos/confirmar_pedido.dart';
 
 class NuevoPedido extends StatefulWidget {
   const NuevoPedido({super.key});
@@ -12,51 +9,107 @@ class NuevoPedido extends StatefulWidget {
 }
 
 class _NuevoPedidoState extends State<NuevoPedido> {
-  int cantidad=1;
+  List<String> productos=[];
+  List<int> ids=[];
+  List<int> cantidades=[];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    data();
+  }
+  data(){
+   productos = ["product 1", "product 2", "product 3"];
+   ids = [22,  55, 33];
+  cantidades = List.filled(productos.length, 0);
+  }
+  
+  
   @override
   Widget build(BuildContext context) {
-     var size=MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Lista de productos"),
+      ),
       body: ListView.builder(
         itemBuilder: (context, index) {
-          return 
-              Card(
-                child: ListTile(  
-                  title: Text("Jalapeño paqueño  $index"),
-                  trailing: SizedBox(
-                    width: 200,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        IconButton(onPressed:(){
+          return Card( 
+            color: cantidades[index]>0 ? Colors.green : Colors.white,
+            child: ListTile(
+              title: Text(productos[index]),
+              trailing: SizedBox(
+                width: 200,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    IconButton(
+                        onPressed: () {
                           setState(() {
-                            num(cantidad, false);
+                            num(cantidades[index], false, index);
                           });
-                        } ,icon: Icon(Icons.remove)),
-                        Text("$cantidad"),
-                        IconButton(onPressed:(){
+                        },
+                        icon: const Icon(Icons.remove)),
+                    Text(cantidades[index].toString()),
+                    IconButton(
+                        onPressed: () {
                           setState(() {
-                            num(cantidad, true);
+                            num(cantidades[index], true, index);
                           });
-                        } ,icon: Icon(Icons.add)),
-                        IconButton(onPressed:(){} ,icon: Icon(Icons.shopping_cart)),
-                      ],
-                    ),
-                    
-                  ),
+                        },
+                        icon: const Icon(Icons.add)),
+                    IconButton(
+                        onPressed: () {
+                          setState(() {
+                            if (cantidades[index]==0){
+                              num(cantidades[index], true, index);
+                              
+                            }else{
+                            cantidades[index]=0;
+                            }
+                          });
+                        },
+                        icon: const Icon(Icons.shopping_cart),color: cantidades[index]>0 ? Colors.white : Colors.grey),
+                  ],
                 ),
-              );
+              ),
+            ),
+          );
         },
-        itemCount: 10,
+        itemCount: productos.length,
       ),
-      floatingActionButton:
-          FloatingActionButton(onPressed: () {
-           // Navigator.push(context, MaterialPageRoute(builder:(context)=>Nuevo_Producto() ));
-          }, child: const Icon(Icons.shopping_cart)),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+          enviarDatos();
+            // Navigator.push(context, MaterialPageRoute(builder:(context)=>ConfirmarPedido() ));
+          },
+          child: const Icon(Icons.shopping_cart)),
     );
   }
+    enviarDatos(){
+      final List<String> products=[];
+      final List<int> id=[];
+      final List<int> cantidad=[];
+       bool estado=false;
+      for(int i=0; i<productos.length;i++){
+          if (cantidades[i]>0){
+            products.add(productos[i]);
+            id.add(ids[i]);
+            cantidad.add(cantidades[i]);
+            estado=true;
+          }
+      }
+      estado?
+      Navigator.push(context, MaterialPageRoute(builder:(context)=>ConfirmarPedido( productos:products,id:id,cantidades:cantidad) ))
+      : estado=false;
+      
+    }
 
-  num(int numero,bool estado){
-    return estado? cantidad+=1: cantidad!=0? cantidad-=1:cantidad=0;
+  num(int numero, bool estado, int index) {
+    estado
+        ? cantidades[index] += 1
+        : cantidades[index] != 0
+            ? cantidades[index] -= 1
+            : cantidades[index] = 0;
+    return cantidades[index];
   }
 }
