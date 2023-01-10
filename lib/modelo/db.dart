@@ -27,18 +27,25 @@ class DB {
     // Get path where to store database
     Directory directory = await getApplicationDocumentsDirectory();
     // path
-    String path = '${directory.path}pedidos.db';
+    String path = '${directory.path}pedidos_4.db';
     // create Database
     _database = await openDatabase(
       path,
       version: 1,
       onCreate: (db, version) async {
         await db.execute(
-            'CREATE TABLE $tableName ($columnId INTEGER PRIMARY KEY, $columnNombre TEXT, $columnCosto NUMERIC, $columnPrecio NUMERIC )');
-        await db.execute(
-            "insert into $tableName ($columnId, $columnNombre, $columnCosto, $columnPrecio) values (1,'producto 1',1,2)");
+            'CREATE TABLE $tableName ($columnId INTEGER PRIMARY KEY, $columnNombre TEXT, $columnCosto DOUBLE, $columnPrecio DOUBLE)');
+
+        //agregarRegistro(_database, 'Valor 1', 1, 1, 0); esto da error
       },
     );
+  }
+
+  void agregarRegistro(
+      Database db, String nombre, int id, double costo, double precio) async {
+    await db.rawInsert(
+        'INSERT INTO $tableName($columnId, $columnNombre, $columnCosto,$columnPrecio) VALUES(?, ?,?,?)',
+        [id, nombre, costo, precio]);
   }
 
   // CRUD

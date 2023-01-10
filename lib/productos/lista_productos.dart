@@ -21,11 +21,14 @@ class _lista_productosState extends State<lista_productos> {
   // getData from DATABASE
   getDataFromDb() async {
     await _myDatabase.initializeDatabase();
+    //_myDatabase.agregarRegistro(db, 'Valor 1', 1, 1, 0);
     List<Map<String, Object?>> map = await _myDatabase.getListaProductos();
     for (int i = 0; i < map.length; i++) {
       productos.add(Producto.toEmp(map[i]));
     }
+
     count = await _myDatabase.count_Producto();
+
     // print(productos);
     setState(() {
       isLoading = false;
@@ -33,27 +36,45 @@ class _lista_productosState extends State<lista_productos> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getDataFromDb();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-        itemBuilder: (context, index) {
-          return Card(
-            child: ListTile(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => EditarProducto()));
-              },
-              title: Text("Jalapeño paqueño  $index"),
-              subtitle: Text("precio 0.75"),
-              trailing: SizedBox(
-                width: 100,
-                child: IconButton(onPressed: () {}, icon: Icon(Icons.delete)),
-              ),
-            ),
-          );
-        },
-        itemCount: 10,
-      ),
+      body: isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : productos.isEmpty
+              ? const Center(
+                  child: Text('Aun no hay productos! '),
+                )
+              : ListView.builder(
+                  itemBuilder: (context, index) {
+                    return Card(
+                      child: ListTile(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditarProducto()));
+                        },
+                        title: Text('${productos[index].nombre} '),
+                        subtitle: Text('${productos[index].costo}'),
+                        trailing: SizedBox(
+                          width: 100,
+                          child: IconButton(
+                              onPressed: () {}, icon: const Icon(Icons.delete)),
+                        ),
+                      ),
+                    );
+                  },
+                  itemCount: count,
+                ),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.push(context,
