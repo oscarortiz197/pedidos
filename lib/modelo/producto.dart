@@ -1,8 +1,8 @@
 class Producto {
   final int? id;
   final String nombre;
-  final double costo;
-  final double precio;
+  final double? costo;
+  final double? precio;
 
   Producto({
     required this.id,

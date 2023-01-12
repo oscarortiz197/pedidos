@@ -16,7 +16,7 @@ class DB {
     return _myDatabase;
   }
   // variables para la base de datos
-  final String tableName = 'producto';
+  final String tableProducto = 'producto';
   final String columnId = "id";
   final String columnNombre = 'nombre';
   final String columnCosto = 'costo';
@@ -34,34 +34,30 @@ class DB {
       version: 1,
       onCreate: (db, version) async {
         await db.execute(
-            'CREATE TABLE $tableName ($columnId INTEGER PRIMARY KEY, $columnNombre TEXT, $columnCosto DOUBLE, $columnPrecio DOUBLE)');
-
-        //agregarRegistro(_database, 'Valor 1', 1, 1, 0); esto da error
+            'CREATE TABLE $tableProducto ($columnId INTEGER PRIMARY KEY, $columnNombre TEXT, $columnCosto DOUBLE, $columnPrecio DOUBLE)');
+        for (int i = 0; i < 11; i++) {
+          String sql =
+              "insert into $tableProducto ($columnId, $columnNombre, $columnCosto, $columnPrecio) values ($i, 'producto $i', 0.75, 1.00)";
+          await db.rawInsert(sql);
+        }
       },
     );
-  }
-
-  void agregarRegistro(
-      Database db, String nombre, int id, double costo, double precio) async {
-    await db.rawInsert(
-        'INSERT INTO $tableName($columnId, $columnNombre, $columnCosto,$columnPrecio) VALUES(?, ?,?,?)',
-        [id, nombre, costo, precio]);
   }
 
   // CRUD
   // Read
   Future<List<Map<String, Object?>>> getListaProductos() async {
     //
-    // List<Map<String, Object?>> result = await _database.rawQuery('SELECT * FROM $tableName');
+    // List<Map<String, Object?>> result = await _database.rawQuery('SELECT * FROM $tableProducto');
     List<Map<String, Object?>> result =
-        await _database.query(tableName, orderBy: columnNombre);
+        await _database.query(tableProducto, orderBy: columnNombre);
     return result;
   }
 
   // Insert
   // ignore: non_constant_identifier_names
   Future<int> inset_Productos(Producto producto) async {
-    int rowsInserted = await _database.insert(tableName, producto.toMap());
+    int rowsInserted = await _database.insert(tableProducto, producto.toMap());
     return rowsInserted;
   }
 
@@ -69,7 +65,7 @@ class DB {
   // ignore: non_constant_identifier_names
   Future<int> update_producto(Producto producto) async {
     //
-    int rowsUpdated = await _database.update(tableName, producto.toMap(),
+    int rowsUpdated = await _database.update(tableProducto, producto.toMap(),
         where: '$columnId= ?', whereArgs: [producto.id]);
     return rowsUpdated;
     //
@@ -80,7 +76,7 @@ class DB {
   Future<int> delete_Producto(Producto producto) async {
     //
     int rowsDeleted = await _database
-        .delete(tableName, where: '$columnId= ?', whereArgs: [producto.id]);
+        .delete(tableProducto, where: '$columnId= ?', whereArgs: [producto.id]);
     return rowsDeleted;
     //
   }
@@ -90,9 +86,20 @@ class DB {
   Future<int> count_Producto() async {
     //
     List<Map<String, Object?>> result =
-        await _database.rawQuery('SELECT COUNT(*) FROM $tableName');
+        await _database.rawQuery('SELECT COUNT(*) FROM $tableProducto');
     int count = Sqflite.firstIntValue(result) ?? 0;
     return count;
     //
+  }
+
+  Future<int> maximo_id_prod() async {
+    final List<Map<String, dynamic>> result =
+        await _database.rawQuery('SELECT MAX(id) FROM $tableProducto');
+    final maxValue = result[0]['MAX(id)'];
+    if (maxValue == null) {
+      return 0;
+    } else {
+      return maxValue;
+    }
   }
 }

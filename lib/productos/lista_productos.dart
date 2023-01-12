@@ -61,7 +61,10 @@ class _lista_productosState extends State<lista_productos> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => EditarProducto()));
+                                  builder: (context) => EditarProducto(
+                                        myDatabase: _myDatabase,
+                                        producto: productos[index],
+                                      )));
                         },
                         title: Text('${productos[index].nombre} '),
                         subtitle: Text('${productos[index].costo}'),
@@ -77,8 +80,12 @@ class _lista_productosState extends State<lista_productos> {
                 ),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => Nuevo_Producto()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => NuevoProducto(
+                          myDatabase: _myDatabase,
+                        )));
           },
           child: const Icon(Icons.add)),
     );
