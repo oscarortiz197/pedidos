@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pedidos/componentes/texfield.dart';
+import 'package:pedidos/componentes/validacion.dart';
+import 'package:pedidos/inicio.dart';
 import 'package:pedidos/modelo/producto.dart';
 import 'package:pedidos/productos/lista_productos.dart';
 import '../modelo/db.dart';
@@ -41,24 +43,29 @@ class _NuevoProductoState extends State<NuevoProducto> {
                     controller: _costoController, msj: "Ingrese el costo"),
                 ElevatedButton(
                   onPressed: () async {
-                    int id = await widget.myDatabase.maximo_id_prod() + 1;
+                    int id = await widget.myDatabase.maximo_id_prod()+ 1;
+                  List <String> datos=[_NombreController.text,_precioController.text,_costoController.text];
+                 if(Validar.validar(datos)){
+                    datos.clear();
                     String nombre = _NombreController.text;
                     double? costo = double.tryParse(_costoController.text);
                     double? precio = double.tryParse(_precioController.text);
                     Producto prod = Producto(
                         id: id, nombre: nombre, costo: costo, precio: precio);
-                    await widget.myDatabase.inset_Productos(prod);
-                    if (mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    if (await widget.myDatabase.inset_Productos(prod)>0) {
+                       // ignore: use_build_context_synchronously
+                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           backgroundColor: Colors.green,
                           content: Text('${prod.nombre} agregado.')));
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const lista_productos(),
-                          ),
-                          (route) => false);
+                      // ignore: use_build_context_synchronously
+                      Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const inicio()));
                     }
+                 }else{
+
+                 }
                   },
                   child: Text("Guardar"),
                 )

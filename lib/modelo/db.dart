@@ -35,11 +35,11 @@ class DB {
       onCreate: (db, version) async {
         await db.execute(
             'CREATE TABLE $tableProducto ($columnId INTEGER PRIMARY KEY, $columnNombre TEXT, $columnCosto DOUBLE, $columnPrecio DOUBLE)');
-        for (int i = 0; i < 11; i++) {
-          String sql =
-              "insert into $tableProducto ($columnId, $columnNombre, $columnCosto, $columnPrecio) values ($i, 'producto $i', 0.75, 1.00)";
-          await db.rawInsert(sql);
-        }
+        // for (int i = 0; i < 11; i++) {
+        //   String sql =
+        //       "insert into $tableProducto ($columnId, $columnNombre, $columnCosto, $columnPrecio) values ($i, 'producto $i', 0.75, 1.00)";
+        //   await db.rawInsert(sql);
+        // }
       },
     );
   }

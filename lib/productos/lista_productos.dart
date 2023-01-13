@@ -23,6 +23,7 @@ class _lista_productosState extends State<lista_productos> {
     await _myDatabase.initializeDatabase();
     //_myDatabase.agregarRegistro(db, 'Valor 1', 1, 1, 0);
     List<Map<String, Object?>> map = await _myDatabase.getListaProductos();
+    print("hola"+map[3]['nombre'].toString());
     for (int i = 0; i < map.length; i++) {
       productos.add(Producto.toEmp(map[i]));
     }
