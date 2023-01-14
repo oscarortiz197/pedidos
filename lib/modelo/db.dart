@@ -43,7 +43,7 @@ class DB {
         await db.execute(
             'CREATE TABLE $tableProducto ($columnId INTEGER PRIMARY KEY, $columnNombre TEXT, $columnCosto DOUBLE, $columnPrecio DOUBLE)');
         await db.execute(
-            'CREATE TABLE $tableEvento ($columnId INTEGER PRIMARY KEY AUTOINCREMENT, $columnfecha TEXT, $columnestado INTEGER)');
+            'CREATE TABLE $tableEvento ($columnId INTEGER PRIMARY KEY AUTOINCREMENT, $columnfecha DATE, $columnestado INTEGER)');
 
         for (int i = 0; i < 11; i++) {
           String sql =

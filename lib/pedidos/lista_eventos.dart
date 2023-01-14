@@ -23,12 +23,10 @@ class _LstaEventosState extends State<LstaEventos> {
     eventos.clear();
     await _myDatabase.initializeDatabase();
     List<Map<String, Object?>> map = await _myDatabase.getListaEventos();
-    print(map);
     for (int i = 0; i < map.length; i++) {
       eventos.add(Evento.toEmp(map[i]));
     }
     count = eventos.length;
-
     setState(() {
       isLoading = false;
     });
@@ -53,39 +51,20 @@ class _LstaEventosState extends State<LstaEventos> {
                 )
               : ListView.builder(
                   itemBuilder: (context, index) {
-                    return Card(
-                      child: ListTile(
-                        onTap: () async {
-                          final result = await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => EditarEvento(
-                                      // myDatabase: _myDatabase,
-                                      // producto_select: eventos[index],
-                                      )));
-
-                          if (result) {
-                            setState(() {
-                              getDataFromDb();
-                            });
-                          }
-                        },
-                        title: Text('Entrega ${eventos[index].fecha}'),
-                        // subtitle: Text('${eventos[index].fecha}'),
-                        trailing: SizedBox(
-                          width: 100,
-                          child: IconButton(
-                              onPressed: () async {
-                                bool estado = await Alerta.borrar(context);
-                                //print(estado);
-                                if (estado) {
-                                  // _myDatabase.delete_Evento(eventos[index]);
-                                  setState(() {
-                                    getDataFromDb();
-                                  });
-                                }
-                              },
-                              icon: const Icon(Icons.delete)),
+                    return InkWell(
+                      // permite la utilizacion del evento onLongPress
+                      onLongPress: () {
+                        print("you got it ");
+                      },
+                      child: Card(
+                        child: ListTile(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const NuevoPedido()));
+                          },
+                          title: Text('Entrega ${eventos[index].fecha}'),
                         ),
                       ),
                     );
@@ -93,19 +72,9 @@ class _LstaEventosState extends State<LstaEventos> {
                   itemCount: count,
                 ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            /*  final result = await Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => NuevoProducto(
-                          myDatabase: _myDatabase,
-                        )));
-            print("holaa  $result");
-            if (result != null) {
-              setState(() {
-                getDataFromDb();
-              });
-            } */
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => NuevoEvento()));
           },
           child: const Icon(Icons.add)),
     );
