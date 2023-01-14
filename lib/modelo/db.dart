@@ -128,6 +128,7 @@ class DB {
     return result;
   }
 
+  // ignore: non_constant_identifier_names
   Future<int> inset_Eventos(Evento evento) async {
     int rowsInserted = await _database.insert(tableEvento, evento.toMap());
     return rowsInserted;

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:pedidos/modelo/eventos.dart';
-import 'package:pedidos/pedidos/nuevo_evento.dart';
 import 'package:pedidos/pedidos/nuevo_pedido.dart';
+import 'package:sqflite/sqflite.dart';
 
 import '../componentes/alertas.dart';
 import '../modelo/db.dart';
@@ -73,12 +74,37 @@ class _LstaEventosState extends State<LstaEventos> {
                 ),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => NuevoEvento()));
+            datechoicer();
           },
           child: const Icon(Icons.add)),
     );
   }
 
-  EditarEvento() {}
+  datechoicer() {
+    int year = DateTime.now().year;
+    DateTime thefinaldate;
+    DatePicker.showDatePicker(context,
+        showTitleActions: true,
+        minTime: DateTime(year, 1, 1),
+        maxTime: DateTime(year, 12, 31),
+        onChanged: (date) {}, onConfirm: (date) {
+      print('confirm $date');
+      // realizar insert y cerrar
+      String dateString = date.toString().substring(0, 10);
+      guardarEvento(dateString, _myDatabase);
+    }, currentTime: DateTime.now(), locale: LocaleType.es);
+  }
+
+  guardarEvento(String fecha, DB myDatabase) async {
+    Evento evento = Evento(id: null, fecha: fecha, estado: 1);
+    if (await myDatabase.inset_Eventos(evento) > 0) {
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Colors.green,
+          content: Text('${evento.fecha} agregado.')));
+      setState(() {
+        getDataFromDb();
+      });
+    }
+  }
 }
