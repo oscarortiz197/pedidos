@@ -1,21 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:pedidos/componentes/texfield.dart';
+import 'package:pedidos/componentes/validacion.dart';
 import 'package:pedidos/modelo/producto.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
+import '../componentes/alertas.dart';
 import '../modelo/db.dart';
 
-class EditarProducto extends StatelessWidget {
+class EditarProducto extends StatefulWidget {
   final DB myDatabase;
-  final Producto producto;
-  EditarProducto({super.key, required this.myDatabase, required this.producto});
+  final Producto producto_select;
+
+  EditarProducto({super.key, required this.myDatabase, required this.producto_select});
+
+  @override
+  State<EditarProducto> createState() => _EditarProductoState();
+}
+
+class _EditarProductoState extends State<EditarProducto> {
   TextEditingController _NombreController = TextEditingController();
+
   TextEditingController _precioController = TextEditingController();
+
   TextEditingController _costoController = TextEditingController();
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _NombreController.text = widget.producto_select.nombre.toString();
+    _precioController.text = widget.producto_select.precio.toString();
+    _costoController.text = widget.producto_select.costo.toString();
+  }
+  @override
   Widget build(BuildContext context) {
-    _NombreController.text = producto.nombre.toString();
-    _precioController.text = producto.precio.toString();
-    _costoController.text = producto.costo.toString();
+    
     var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -36,7 +54,22 @@ class EditarProducto extends StatelessWidget {
                 NumDouble(
                     controller: _costoController, msj: "Ingrese el costo"),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: ()async {
+                    List <String> campos=[_NombreController.text,_precioController.text,_costoController.text];
+                    if(Validar.validar(campos)){
+                       String nombre = _NombreController.text;
+                    double? costo = double.tryParse(_costoController.text);
+                    double? precio = double.tryParse(_precioController.text);
+                    Producto pro=Producto(id:widget.producto_select.id,nombre:nombre,costo:costo,precio:precio);
+                    if(await widget.myDatabase.update_producto(pro)>0){
+                      Alerta.mensaje(context,"Se ha actualizado el registro",Colors.green);
+                        Navigator.pop(context,true);
+                        
+                    }
+
+                    }
+
+                  },
                   child: Text("Guardar"),
                 )
               ],
