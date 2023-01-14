@@ -82,13 +82,11 @@ class _LstaEventosState extends State<LstaEventos> {
 
   datechoicer() {
     int year = DateTime.now().year;
-    DateTime thefinaldate;
     DatePicker.showDatePicker(context,
         showTitleActions: true,
         minTime: DateTime(year, 1, 1),
         maxTime: DateTime(year, 12, 31),
         onChanged: (date) {}, onConfirm: (date) {
-      print('confirm $date');
       // realizar insert y cerrar
       String dateString = date.toString().substring(0, 10);
       guardarEvento(dateString, _myDatabase);
@@ -99,9 +97,7 @@ class _LstaEventosState extends State<LstaEventos> {
     Evento evento = Evento(id: null, fecha: fecha, estado: 1);
     if (await myDatabase.inset_Eventos(evento) > 0) {
       // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: Colors.green,
-          content: Text('${evento.fecha} agregado.')));
+      Alerta.mensaje(context, "${evento.fecha} Agregado ", Colors.green);
       setState(() {
         getDataFromDb();
       });
