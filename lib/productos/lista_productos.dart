@@ -109,7 +109,7 @@ class _lista_productosState extends State<lista_productos> {
                           myDatabase: _myDatabase,
                         )));
                         print("holaa  $result");
-                        if(result){
+                        if(result!=null){
                           setState(() {
                             getDataFromDb();
                           });

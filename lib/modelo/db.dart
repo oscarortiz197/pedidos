@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'package:pedidos/modelo/eventos.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:pedidos/modelo/producto.dart';
 
@@ -22,6 +23,12 @@ class DB {
   final String columnCosto = 'costo';
   final String columnPrecio = 'precio';
 
+  //tabla eventos
+  //final String id='id';
+  final String tableEvento = "evento";
+  final String columnfecha = 'fecha';
+  final String columnestado = 'estado';
+
   // init database
   initializeDatabase() async {
     // Get path where to store database
@@ -35,6 +42,9 @@ class DB {
       onCreate: (db, version) async {
         await db.execute(
             'CREATE TABLE $tableProducto ($columnId INTEGER PRIMARY KEY, $columnNombre TEXT, $columnCosto DOUBLE, $columnPrecio DOUBLE)');
+        await db.execute(
+            'CREATE TABLE $tableEvento ($columnId INTEGER PRIMARY KEY AUTOINCREMENT, $columnfecha DATE, $columnestado INTEGER)');
+
         for (int i = 0; i < 11; i++) {
           String sql =
               "insert into $tableProducto ($columnId, $columnNombre, $columnCosto, $columnPrecio) values ($i, 'producto $i', 0.75, 1.00)";
@@ -102,4 +112,30 @@ class DB {
       return maxValue;
     }
   }
+
+// *************************************************************crud eventos****************************
+  Future<List<Map<String, Object?>>> getListaEventos() async {
+    //
+    // List<Map<String, Object?>> result = await _database.rawQuery('SELECT * FROM $tableProducto');
+    List<Map<String, Object?>> result =
+        await _database.query(tableEvento, orderBy: columnfecha+" ASC" );
+    return result;
+  }
+
+  Future<int> inset_Eventos(Evento evento) async {
+    int rowsInserted = await _database.insert(tableEvento, evento.toMap());
+    return rowsInserted;
+  }
+
+  Future<int> count_Evento() async {
+    //
+    List<Map<String, Object?>> result =
+        await _database.rawQuery('SELECT COUNT(*) FROM $tableEvento');
+    int count = Sqflite.firstIntValue(result) ?? 0;
+    return count;
+    //
+  }
+
+// *************************************************************crud eventos fin****************************
+
 }

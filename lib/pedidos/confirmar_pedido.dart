@@ -63,7 +63,8 @@ class _ConfirmarPedidoState extends State<ConfirmarPedido> {
                               
                             ),
                           );
-                        } else {
+                        } 
+                        else {
                           return const Divider(
                             color: Colors.white,
                             height: 0,
@@ -106,8 +107,9 @@ class _ConfirmarPedidoState extends State<ConfirmarPedido> {
   procesar(){
    
     for (int i=0;i<widget.productos.length;i++){
-     
+      
       if (widget.cantidades[i]>0){
+        
          total+=widget.productos[i].precio!*widget.cantidades[i]!;
          //productos.addAll("producto","widget.productos[i].nombre");
       }
