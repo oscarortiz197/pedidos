@@ -15,6 +15,7 @@ class lista_productos extends StatefulWidget {
   State<lista_productos> createState() => _lista_productosState();
 }
 
+// ignore: camel_case_types
 class _lista_productosState extends State<lista_productos> {
   bool isLoading = true;
   List<Producto> productos = List.empty(growable: true);
@@ -25,9 +26,8 @@ class _lista_productosState extends State<lista_productos> {
   getDataFromDb() async {
     productos.clear();
     await _myDatabase.initializeDatabase();
-    //_myDatabase.agregarRegistro(db, 'Valor 1', 1, 1, 0);
     List<Map<String, Object?>> map = await _myDatabase.getListaProductos();
-    //print("hola"+map[3]['nombre'].toString());
+
     for (int i = 0; i < map.length; i++) {
       productos.add(Producto.toEmp(map[i]));
     }
@@ -62,7 +62,7 @@ class _lista_productosState extends State<lista_productos> {
                   itemBuilder: (context, index) {
                     return Card(
                       child: ListTile(
-                        onTap: ()async {
+                        onTap: () async {
                           final result = await Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -70,12 +70,12 @@ class _lista_productosState extends State<lista_productos> {
                                         myDatabase: _myDatabase,
                                         producto_select: productos[index],
                                       )));
-                                      //print(result);
-                                      if(result){
-                                        setState(() {
-                                          getDataFromDb();
-                                        });
-                                      }
+                          //print(result);
+                          if (result) {
+                            setState(() {
+                              getDataFromDb();
+                            });
+                          }
                         },
                         title: Text('${productos[index].nombre} '),
                         subtitle: Text('${productos[index].costo}'),
@@ -83,10 +83,9 @@ class _lista_productosState extends State<lista_productos> {
                           width: 100,
                           child: IconButton(
                               onPressed: () async {
-                               
-                                bool estado= await  Alerta.borrar(context);
+                                bool estado = await Alerta.borrar(context);
                                 //print(estado);
-                                if(estado){
+                                if (estado) {
                                   _myDatabase.delete_Producto(productos[index]);
                                   setState(() {
                                     getDataFromDb();
@@ -101,19 +100,19 @@ class _lista_productosState extends State<lista_productos> {
                   itemCount: count,
                 ),
       floatingActionButton: FloatingActionButton(
-          onPressed: ()async {
-            final result=await Navigator.push(
+          onPressed: () async {
+            final result = await Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => NuevoProducto(
                           myDatabase: _myDatabase,
                         )));
-                        print("holaa  $result");
-                        if(result!=null){
-                          setState(() {
-                            getDataFromDb();
-                          });
-                        }
+            print("holaa  $result");
+            if (result != null) {
+              setState(() {
+                getDataFromDb();
+              });
+            }
           },
           child: const Icon(Icons.add)),
     );

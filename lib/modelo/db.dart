@@ -43,11 +43,17 @@ class DB {
         await db.execute(
             'CREATE TABLE $tableProducto ($columnId INTEGER PRIMARY KEY, $columnNombre TEXT, $columnCosto DOUBLE, $columnPrecio DOUBLE)');
         await db.execute(
-            'CREATE TABLE $tableEvento ($columnId INTEGER PRIMARY KEY AUTOINCREMENT, $columnfecha DATE, $columnestado INTEGER)');
+            'CREATE TABLE $tableEvento ($columnId INTEGER PRIMARY KEY AUTOINCREMENT, $columnfecha TEXT, $columnestado INTEGER)');
 
         for (int i = 0; i < 11; i++) {
           String sql =
               "insert into $tableProducto ($columnId, $columnNombre, $columnCosto, $columnPrecio) values ($i, 'producto $i', 0.75, 1.00)";
+          await db.rawInsert(sql);
+          DateTime myDate = DateTime(2023, 01, i); // verificar
+          String dateString = myDate.toString().substring(0, 10);
+          print(dateString);
+          sql =
+              "insert into $tableEvento ( $columnfecha, $columnestado) values ('$dateString' , 1)";
           await db.rawInsert(sql);
         }
       },
@@ -118,7 +124,7 @@ class DB {
     //
     // List<Map<String, Object?>> result = await _database.rawQuery('SELECT * FROM $tableProducto');
     List<Map<String, Object?>> result =
-        await _database.query(tableEvento, orderBy: columnfecha+" ASC" );
+        await _database.query(tableEvento, orderBy: columnfecha + " desc");
     return result;
   }
 

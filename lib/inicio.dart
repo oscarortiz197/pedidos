@@ -1,9 +1,8 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:pedidos/pedidos/lista_eventos.dart';
 import 'package:pedidos/productos/lista_productos.dart';
-// prueba de cambio 
+
+// prueba de cambio
 class inicio extends StatefulWidget {
   const inicio({super.key});
 
@@ -19,8 +18,8 @@ class _inicioState extends State<inicio> {
       child: Scaffold(
         body: SafeArea(
           child: Column(
-            children:  [
-              const TabBar (
+            children: [
+              const TabBar(
                 labelColor: Colors.black,
                 tabs: [
                   Tab(
@@ -33,30 +32,30 @@ class _inicioState extends State<inicio> {
                     text: "productos",
                   )
                 ],
-              ), 
+              ),
               Expanded(
                 child: TabBarView(
                   children: [
-                  lista_productos(),
-                  lista_eventos(),
-                  lista_productos(),
+                    const LstaEventos(),
+                    const LstaEventos(),
+                    const lista_productos(),
                   ],
                 ),
               ),
-            //  Container(
-            //   margin: const EdgeInsets.only(top: 10),
-            //   color: Color.fromARGB(50, 0, 0, 0),
-            //   child: Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-            //   children: [
-            //     IconButton(onPressed: (){
-            //       SystemNavigator.pop();
-            //     }, icon: Icon(Icons.exit_to_app)),
-            //     IconButton(onPressed: (){}, icon: Icon(Icons.update)),
-            //     IconButton(onPressed: (){}, icon: Icon(Icons.add)),
-            //   ],
-            //  ),
-            //  )
+              //  Container(
+              //   margin: const EdgeInsets.only(top: 10),
+              //   color: Color.fromARGB(50, 0, 0, 0),
+              //   child: Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+              //   children: [
+              //     IconButton(onPressed: (){
+              //       SystemNavigator.pop();
+              //     }, icon: Icon(Icons.exit_to_app)),
+              //     IconButton(onPressed: (){}, icon: Icon(Icons.update)),
+              //     IconButton(onPressed: (){}, icon: Icon(Icons.add)),
+              //   ],
+              //  ),
+              //  )
             ],
           ),
         ),

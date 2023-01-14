@@ -1,51 +1,115 @@
 import 'package:flutter/material.dart';
+import 'package:pedidos/modelo/eventos.dart';
 import 'package:pedidos/pedidos/nuevo_evento.dart';
 import 'package:pedidos/pedidos/nuevo_pedido.dart';
 
-class lista_eventos extends StatefulWidget {
-  const lista_eventos({super.key});
+import '../componentes/alertas.dart';
+import '../modelo/db.dart';
+
+class LstaEventos extends StatefulWidget {
+  const LstaEventos({super.key});
 
   @override
-  State<lista_eventos> createState() => _lista_eventosState();
+  State<LstaEventos> createState() => _LstaEventosState();
 }
 
-class _lista_eventosState extends State<lista_eventos> {
+class _LstaEventosState extends State<LstaEventos> {
+  bool isLoading = true;
+  List<Evento> eventos = List.empty(growable: true);
+  final DB _myDatabase = DB();
+  int count = 0;
+
+  getDataFromDb() async {
+    eventos.clear();
+    await _myDatabase.initializeDatabase();
+    List<Map<String, Object?>> map = await _myDatabase.getListaEventos();
+    print(map);
+    for (int i = 0; i < map.length; i++) {
+      eventos.add(Evento.toEmp(map[i]));
+    }
+    count = eventos.length;
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getDataFromDb();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-        itemBuilder: (context, index) {
-          return InkWell(
-            // permite la utilizacion del evento onLongPress
-            onLongPress: () {
-              print("you got it ");
-            },
-            child: Card(
-              child: ListTile(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const NuevoPedido()));
-                },
-                title: Text("evento 10-2-2023 $index"),
-                // ignore: prefer_const_constructors
-                trailing: SizedBox(
-                  width: 100,
-                  // child: IconButton(onPressed:(){ } ,icon: Icon(Icons.delete)),
+      body: isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : eventos.isEmpty
+              ? const Center(
+                  child: Text('Aun no hay eventos! '),
+                )
+              : ListView.builder(
+                  itemBuilder: (context, index) {
+                    return Card(
+                      child: ListTile(
+                        onTap: () async {
+                          final result = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditarEvento(
+                                      // myDatabase: _myDatabase,
+                                      // producto_select: eventos[index],
+                                      )));
+
+                          if (result) {
+                            setState(() {
+                              getDataFromDb();
+                            });
+                          }
+                        },
+                        title: Text('Entrega ${eventos[index].fecha}'),
+                        // subtitle: Text('${eventos[index].fecha}'),
+                        trailing: SizedBox(
+                          width: 100,
+                          child: IconButton(
+                              onPressed: () async {
+                                bool estado = await Alerta.borrar(context);
+                                //print(estado);
+                                if (estado) {
+                                  // _myDatabase.delete_Evento(eventos[index]);
+                                  setState(() {
+                                    getDataFromDb();
+                                  });
+                                }
+                              },
+                              icon: const Icon(Icons.delete)),
+                        ),
+                      ),
+                    );
+                  },
+                  itemCount: count,
                 ),
-              ),
-            ),
-          );
-        },
-        itemCount: 5,
-      ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => NuevoEvento()));
+          onPressed: () async {
+            /*  final result = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => NuevoProducto(
+                          myDatabase: _myDatabase,
+                        )));
+            print("holaa  $result");
+            if (result != null) {
+              setState(() {
+                getDataFromDb();
+              });
+            } */
           },
           child: const Icon(Icons.add)),
     );
   }
+
+  EditarEvento() {}
 }
