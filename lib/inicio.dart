@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pedidos/pedidos/lista_eventos.dart';
 import 'package:pedidos/productos/lista_productos.dart';
 
+import 'listado/lista_Eventos.dart';
+
 // prueba de cambio
 class inicio extends StatefulWidget {
   const inicio({super.key});
@@ -36,7 +38,7 @@ class _inicioState extends State<inicio> {
               Expanded(
                 child: TabBarView(
                   children: [
-                    const LstaEventos(),
+                    const ListaEventos(),
                     const LstaEventos(),
                     const lista_productos(),
                   ],

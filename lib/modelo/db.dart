@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'package:pedidos/componentes/utilidades.dart';
 import 'package:pedidos/modelo/detalle_pedido.dart';
 import 'package:pedidos/modelo/encabazo_pedido.dart';
 import 'package:pedidos/modelo/eventos.dart';
@@ -32,17 +33,15 @@ class DB {
   final String columnestado = 'estado';
 
   //tabla encabezado
-  final String tableEncabezado="encabezado";
-  final String columidEvento="idEvento";
-  final String columcliente="cliente";
+  final String tableEncabezado = "encabezado";
+  final String columidEvento = "idEvento";
+  final String columcliente = "cliente";
 
   // tabla detalle
-  final String tableDetalle="detalle";
-  final String columidEncabezado="idEncabezado";
-  final String columidProducto="idProducto";
-  final String columcantidad="cantidad";
-
-
+  final String tableDetalle = "detalle";
+  final String columidEncabezado = "idEncabezado";
+  final String columidProducto = "idProducto";
+  final String columcantidad = "cantidad";
 
   // init database
   initializeDatabase() async {
@@ -173,36 +172,34 @@ class DB {
 
 // *************************************************************crud eventos fin****************************
 
-
-
-
-
 //*************************************************************crud encabezado****************************
   Future<List<Map<String, Object?>>> getListaEncabezado() async {
     //
-    // List<Map<String, Object?>> result = await _database.rawQuery('SELECT * FROM $tableProducto');
+    // List<Map<String, Object?>> result = await _database.rawQuery('SELECT * FROM $tableEncabezado where $columidEvento = ${Utilidades.idEvento}');
     List<Map<String, Object?>> result =
-        await _database.query(tableEncabezado, orderBy: columnId  + " desc");
+        await _database.query(tableEncabezado, where:'$columidEvento=?',whereArgs: [Utilidades.idEvento] );
     return result;
   }
 
   // ignore: non_constant_identifier_names
   Future<int> insert_Encabezado(Encabezado encabezado) async {
-    int rowsInserted = await _database.insert(tableEncabezado, encabezado.toMap());
+    int rowsInserted =
+        await _database.insert(tableEncabezado, encabezado.toMap());
     return rowsInserted;
   }
 
   Future<int> delete_Encabezado(Encabezado encabezado) async {
     //
-    int rowsDeleted = await _database
-        .delete(tableEncabezado, where: '$columnId= ?', whereArgs: [encabezado.id]);
+    int rowsDeleted = await _database.delete(tableEncabezado,
+        where: '$columnId= ?', whereArgs: [encabezado.id]);
     return rowsDeleted;
     //
   }
 
   Future<int> update_Encabezado(Encabezado encabezado) async {
     //
-    int rowsUpdated = await _database.update(tableEncabezado, encabezado.toMap(),
+    int rowsUpdated = await _database.update(
+        tableEncabezado, encabezado.toMap(),
         where: '$columnId= ?', whereArgs: [encabezado.id]);
     return rowsUpdated;
     //
@@ -219,13 +216,12 @@ class DB {
 
 // *************************************************************crud encabezado fin****************************
 
-
 //*************************************************************crud detalles****************************
   Future<List<Map<String, Object?>>> getListaDetalle() async {
     //
     // List<Map<String, Object?>> result = await _database.rawQuery('SELECT * FROM $tableProducto');
     List<Map<String, Object?>> result =
-        await _database.query(tableDetalle, orderBy: columnId  + " desc");
+        await _database.query(tableDetalle, orderBy: columnId + " desc");
     return result;
   }
 
@@ -262,4 +258,14 @@ class DB {
 
 // *************************************************************crud detalles fin****************************
 
+  Future<List<Map<String, Object?>>> getListaPedidos() async {
+    //
+    String consulta='select ee.cliente,p.nombre,d.cantidad,e.fecha,e.estado from $tableEvento as e inner JOIN $tableEncabezado as ee on e.$columnId=ee.$columidEvento inner join $tableDetalle as d on ee.$columnId=d.$columidEncabezado inner join $tableProducto as p on p.$columnId=d.$columidProducto where $tableEvento=${Utilidades.idEvento}';
+    List<Map<String, Object?>> result = await _database.rawQuery("select e.id as encabezado,d.id, e.$columcliente,d.$columcantidad, p.$columnNombre from $tableEvento as ev inner JOIN $tableEncabezado as e on ev.$columnId=e.$columidEvento inner JOIN $tableDetalle as d on e.$columnId=d.$columidEncabezado inner join $tableProducto as p on p.$columnId= d.$columidProducto where ev.$columnId=${Utilidades.idEvento}");
+        
+
+    return result;
+  }
+
+//select e.cliente,p.nombre,d.cantidad,e.fecha,e.estado from evento as e inner JOIN detalle_pedido as d on e.id=d.idpedido inner join productos as p on d.idproducto=p.id where evento=1
 }
