@@ -124,7 +124,7 @@ class DB {
     //
     // List<Map<String, Object?>> result = await _database.rawQuery('SELECT * FROM $tableProducto');
     List<Map<String, Object?>> result =
-        await _database.query(tableEvento, orderBy: columnfecha + " desc");
+        await _database.query(tableEvento, orderBy: "$columnfecha desc");
     return result;
   }
 
@@ -132,6 +132,15 @@ class DB {
   Future<int> inset_Eventos(Evento evento) async {
     int rowsInserted = await _database.insert(tableEvento, evento.toMap());
     return rowsInserted;
+  }
+
+  // ignore: non_constant_identifier_names
+  Future<int> update_Evento(Evento evento) async {
+    //
+    int rowsUpdated = await _database.update(tableEvento, evento.toMap(),
+        where: '$columnId= ?', whereArgs: [evento.id]);
+    return rowsUpdated;
+    //
   }
 
   Future<int> count_Evento() async {

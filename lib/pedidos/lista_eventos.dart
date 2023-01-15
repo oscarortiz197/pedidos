@@ -54,8 +54,12 @@ class _LstaEventosState extends State<LstaEventos> {
                   itemBuilder: (context, index) {
                     return InkWell(
                       // permite la utilizacion del evento onLongPress
-                      onLongPress: () {
-                        print("you got it ");
+                      onLongPress: () async {
+                        int opcion = await Alerta.dialogoOpciones(context);
+                        // print(opcion.toString() + "hey ");
+                        if (opcion == 1) {
+                          datechoicer(opcion, index); // para actualizar
+                        }
                       },
                       child: Card(
                         child: ListTile(
@@ -74,22 +78,25 @@ class _LstaEventosState extends State<LstaEventos> {
                 ),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
-            datechoicer();
+            datechoicer(0, 0); //insertar
           },
           child: const Icon(Icons.add)),
     );
   }
 
-  datechoicer() {
+  datechoicer(int opcion, int index) {
+    // 0 insertar 1 editar
     int year = DateTime.now().year;
     DatePicker.showDatePicker(context,
         showTitleActions: true,
         minTime: DateTime(year, 1, 1),
-        maxTime: DateTime(year, 12, 31),
+        maxTime: DateTime(year + 1, 12, 31),
         onChanged: (date) {}, onConfirm: (date) {
       // realizar insert y cerrar
       String dateString = date.toString().substring(0, 10);
-      guardarEvento(dateString, _myDatabase);
+      (opcion == 0) // 0 insertar 1 editar
+          ? guardarEvento(dateString, _myDatabase)
+          : editarEvento(dateString, index, _myDatabase);
     }, currentTime: DateTime.now(), locale: LocaleType.es);
   }
 
@@ -98,6 +105,17 @@ class _LstaEventosState extends State<LstaEventos> {
     if (await myDatabase.inset_Eventos(evento) > 0) {
       // ignore: use_build_context_synchronously
       Alerta.mensaje(context, "${evento.fecha} Agregado ", Colors.green);
+      setState(() {
+        getDataFromDb();
+      });
+    }
+  }
+
+  editarEvento(String fecha, int index, DB myDatabase) async {
+    Evento evento = Evento(id: eventos[index].id, fecha: fecha, estado: 1);
+    if (await myDatabase.update_Evento(evento) > 0) {
+      // ignore: use_build_context_synchronously
+      Alerta.mensaje(context, "${evento.fecha} Actualizado ", Colors.green);
       setState(() {
         getDataFromDb();
       });
