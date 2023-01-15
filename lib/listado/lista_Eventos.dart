@@ -49,17 +49,22 @@ class _ListaEventosState extends State<ListaEventos> {
                 )
               : ListView.builder(
                   itemBuilder: (context, index) {
-                    return Card(
-                      child: ListTile(
-                        onTap: () {
-                          Utilidades.idEvento=eventos[index].id;
-                          Utilidades.fechaEvento=eventos[index].fecha;
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Encabezados() ));
-                        },
-                        title: Text('Entrega ${eventos[index].fecha}'),
+                    return InkWell(
+                      onLongPress: () {
+                        print("generar pedidos resumenes");
+                      },
+                      child: Card(
+                        child: ListTile(
+                          onTap: () {
+                            Utilidades.idEvento = eventos[index].id;
+                            Utilidades.fechaEvento = eventos[index].fecha;
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Encabezados()));
+                          },
+                          title: Text('Entrega ${eventos[index].fecha}'),
+                        ),
                       ),
                     );
                   },
@@ -67,6 +72,4 @@ class _ListaEventosState extends State<ListaEventos> {
                 ),
     );
   }
-
-  
-  }
+}

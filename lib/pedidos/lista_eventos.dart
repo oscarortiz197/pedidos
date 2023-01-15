@@ -62,16 +62,25 @@ class _LstaEventosState extends State<LstaEventos> {
                           datechoicer(opcion, index); // para actualizar
                         }
                       },
-                      child: Card(
-                        child: ListTile(
-                          onTap: () {
-                            Utilidades.idEvento=eventos[index].id;
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const NuevoPedido()));
-                          },
-                          title: Text('Entrega ${eventos[index].fecha}'),
+                      child: InkWell(
+                        onLongPress: () async {
+                          int opcion = await Alerta.dialogoOpciones(context);
+                          if (opcion == 1) {
+                            datechoicer(opcion, index); // para actualizar
+                          }
+                        },
+                        child: Card(
+                          child: ListTile(
+                            onTap: () {
+                              Utilidades.idEvento = eventos[index].id;
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const NuevoPedido()));
+                            },
+                            title: Text('Entrega ${eventos[index].fecha}'),
+                          ),
                         ),
                       ),
                     );
