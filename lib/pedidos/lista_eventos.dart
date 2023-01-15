@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:pedidos/componentes/utilidades.dart';
 import 'package:pedidos/modelo/eventos.dart';
 import 'package:pedidos/pedidos/nuevo_pedido.dart';
 import 'package:sqflite/sqflite.dart';
@@ -60,6 +61,7 @@ class _LstaEventosState extends State<LstaEventos> {
                       child: Card(
                         child: ListTile(
                           onTap: () {
+                            Utilidades.idEvento=eventos[index].id;
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

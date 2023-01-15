@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pedidos/componentes/utilidades.dart';
+import 'package:pedidos/modelo/detalle_pedido.dart';
+import 'package:pedidos/modelo/encabazo_pedido.dart';
 import 'package:pedidos/pedidos/nuevo_pedido.dart';
 //import 'package:pedidos/productos/lista_productos.dart';
 
@@ -10,6 +13,7 @@ class ConfirmarPedido extends StatefulWidget {
   final DB myDatabase;
   final List<Producto> productos;
   final List cantidades;
+  
   
   ConfirmarPedido(
       {super.key,
@@ -81,12 +85,14 @@ class _ConfirmarPedidoState extends State<ConfirmarPedido> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            if (guardar()) {
-              Navigator.pop(context);
-              Navigator.pop(context);
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const NuevoPedido()));
+          onPressed: ()async {
+            if (await guardar()) {
+              // Navigator.pop(context);
+              // Navigator.pop(context);
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => const NuevoPedido()));
+              print( await widget.myDatabase.getListaEncabezado());
+             print( await widget.myDatabase.getListaDetalle());
             } else {
               print("Cliente es un campo requerido ");
             }
@@ -95,11 +101,22 @@ class _ConfirmarPedidoState extends State<ConfirmarPedido> {
     );
   }
 
-  bool guardar() {
+  Future<bool> guardar()async {
     if (_ClinteController.text.isEmpty) {
       return false;
     } else {
-      // guardar la data
+      Encabezado enc = Encabezado(id: null, idEvento: Utilidades.idEvento, cliente: _ClinteController.text);
+      int idenc = await widget.myDatabase.insert_Encabezado(enc);
+      if(idenc!=0){
+      for (int i=0;i<widget.productos.length;i++){
+      if (widget.cantidades[i]>0){   
+         Detalle dt=Detalle(id: null, idEncabezado: idenc, idProducto: widget.productos[i].id, cantidad:widget.cantidades[i]);
+         await widget.myDatabase.insert_Detalle(dt);
+      }
+      }
+      }
+
+     // Detalle dt=Detalle(id: null, idEncabezado: idenc, idProducto: idProducto, cantidad: cantidad)
       return true;
     }
   }
@@ -111,7 +128,6 @@ class _ConfirmarPedidoState extends State<ConfirmarPedido> {
       if (widget.cantidades[i]>0){
         
          total+=widget.productos[i].precio!*widget.cantidades[i]!;
-         //productos.addAll("producto","widget.productos[i].nombre");
       }
       
 

@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'package:pedidos/modelo/detalle_pedido.dart';
+import 'package:pedidos/modelo/encabazo_pedido.dart';
 import 'package:pedidos/modelo/eventos.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:pedidos/modelo/producto.dart';
@@ -29,6 +31,19 @@ class DB {
   final String columnfecha = 'fecha';
   final String columnestado = 'estado';
 
+  //tabla encabezado
+  final String tableEncabezado="encabezado";
+  final String columidEvento="idEvento";
+  final String columcliente="cliente";
+
+  // tabla detalle
+  final String tableDetalle="detalle";
+  final String columidEncabezado="idEncabezado";
+  final String columidProducto="idProducto";
+  final String columcantidad="cantidad";
+
+
+
   // init database
   initializeDatabase() async {
     // Get path where to store database
@@ -41,9 +56,13 @@ class DB {
       version: 1,
       onCreate: (db, version) async {
         await db.execute(
-            'CREATE TABLE $tableProducto ($columnId INTEGER PRIMARY KEY, $columnNombre TEXT, $columnCosto DOUBLE, $columnPrecio DOUBLE)');
+            'CREATE TABLE $tableProducto ($columnId INTEGER PRIMARY KEY AUTOINCREMENT, $columnNombre TEXT, $columnCosto DOUBLE, $columnPrecio DOUBLE)');
         await db.execute(
             'CREATE TABLE $tableEvento ($columnId INTEGER PRIMARY KEY AUTOINCREMENT, $columnfecha DATE, $columnestado INTEGER)');
+        await db.execute(
+            'CREATE TABLE $tableEncabezado ($columnId INTEGER PRIMARY KEY AUTOINCREMENT, $columidEvento INTEGER, $columcliente TEXT, FOREIGN KEY ($columidEvento) REFERENCES $tableEvento ($columnId) ON UPDATE CASCADE ON DELETE CASCADE)');
+        await db.execute(
+            'CREATE TABLE $tableDetalle ($columnId INTEGER PRIMARY KEY AUTOINCREMENT, $columidEncabezado INTEGER, $columidProducto INTEGER, $columcantidad INTEGER, FOREIGN KEY ($columidEncabezado) REFERENCES $tableEncabezado ($columnId) ON UPDATE CASCADE ON DELETE CASCADE , FOREIGN KEY ($columidProducto) REFERENCES $tableProducto ($columnId) ON UPDATE CASCADE ON DELETE CASCADE)');
 
         for (int i = 0; i < 11; i++) {
           String sql =
@@ -144,5 +163,94 @@ class DB {
   }
 
 // *************************************************************crud eventos fin****************************
+
+
+
+
+
+//*************************************************************crud encabezado****************************
+  Future<List<Map<String, Object?>>> getListaEncabezado() async {
+    //
+    // List<Map<String, Object?>> result = await _database.rawQuery('SELECT * FROM $tableProducto');
+    List<Map<String, Object?>> result =
+        await _database.query(tableEncabezado, orderBy: columnId  + " desc");
+    return result;
+  }
+
+  // ignore: non_constant_identifier_names
+  Future<int> insert_Encabezado(Encabezado encabezado) async {
+    int rowsInserted = await _database.insert(tableEncabezado, encabezado.toMap());
+    return rowsInserted;
+  }
+
+  Future<int> delete_Encabezado(Encabezado encabezado) async {
+    //
+    int rowsDeleted = await _database
+        .delete(tableEncabezado, where: '$columnId= ?', whereArgs: [encabezado.id]);
+    return rowsDeleted;
+    //
+  }
+
+  Future<int> update_Encabezado(Encabezado encabezado) async {
+    //
+    int rowsUpdated = await _database.update(tableEncabezado, encabezado.toMap(),
+        where: '$columnId= ?', whereArgs: [encabezado.id]);
+    return rowsUpdated;
+    //
+  }
+
+  Future<int> count_Encabezado() async {
+    //
+    List<Map<String, Object?>> result =
+        await _database.rawQuery('SELECT COUNT(*) FROM $tableEncabezado');
+    int count = Sqflite.firstIntValue(result) ?? 0;
+    return count;
+    //
+  }
+
+// *************************************************************crud encabezado fin****************************
+
+
+//*************************************************************crud detalles****************************
+  Future<List<Map<String, Object?>>> getListaDetalle() async {
+    //
+    // List<Map<String, Object?>> result = await _database.rawQuery('SELECT * FROM $tableProducto');
+    List<Map<String, Object?>> result =
+        await _database.query(tableDetalle, orderBy: columnId  + " desc");
+    return result;
+  }
+
+  // ignore: non_constant_identifier_names
+  Future<int> insert_Detalle(Detalle detalle) async {
+    int rowsInserted = await _database.insert(tableDetalle, detalle.toMap());
+    return rowsInserted;
+  }
+
+  Future<int> delete_Detalles(Detalle detalle) async {
+    //
+    int rowsDeleted = await _database
+        .delete(tableDetalle, where: '$columnId= ?', whereArgs: [detalle.id]);
+    return rowsDeleted;
+    //
+  }
+
+  Future<int> update_Detalles(Detalle detalle) async {
+    //
+    int rowsUpdated = await _database.update(tableDetalle, detalle.toMap(),
+        where: '$columnId= ?', whereArgs: [detalle.id]);
+    return rowsUpdated;
+    //
+  }
+
+  Future<int> count_Detalles() async {
+    //
+    List<Map<String, Object?>> result =
+        await _database.rawQuery('SELECT COUNT(*) FROM $tableDetalle');
+    int count = Sqflite.firstIntValue(result) ?? 0;
+    return count;
+    //
+  }
+
+// *************************************************************crud detalles fin****************************
 
 }

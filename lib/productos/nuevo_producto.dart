@@ -56,7 +56,7 @@ class _NuevoProductoState extends State<NuevoProducto> {
                       double? costo = double.tryParse(_costoController.text);
                       double? precio = double.tryParse(_precioController.text);
                       Producto prod = Producto(
-                          id: id, nombre: nombre, costo: costo, precio: precio);
+                          id: null, nombre: nombre, costo: costo, precio: precio);
                       if (await widget.myDatabase.inset_Productos(prod) > 0) {
                         // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
