@@ -275,11 +275,12 @@ class DB {
     return result;
   }
 
-  Future<List<Map<String, dynamic>>> getListaPedidosSuma() async {
-    List<Map<String, dynamic>> result = await _database.rawQuery(
-        "Select  sum(d.idproducto) as count  from evento as ev inner join encabezado as e on ev.id=e.idEvento inner join detalle as d on e.id=d.idEncabezado inner join producto as p on d.idproducto=p.id where  ev.id=${Utilidades.idEvento} order by p.id ASC");
+  Future<List<Map<String, Object?>>> getListaPedidoEventoCliente() async {
+    //
+    //String consulta='select ee.cliente,p.nombre,d.cantidad,e.fecha,e.estado from $tableEvento as e inner JOIN $tableEncabezado as ee on e.$columnId=ee.$columidEvento inner join $tableDetalle as d on ee.$columnId=d.$columidEncabezado inner join $tableProducto as p on p.$columnId=d.$columidProducto where $tableEvento=${Utilidades.idEvento}';
+    List<Map<String, Object?>> result = await _database.rawQuery(
+        "select e.id as encabezado,d.id, e.$columcliente,d.$columcantidad, p.$columnNombre,p.$columnPrecio from $tableEvento as ev inner JOIN $tableEncabezado as e on ev.$columnId=e.$columidEvento inner JOIN $tableDetalle as d on e.$columnId=d.$columidEncabezado inner join $tableProducto as p on p.$columnId= d.$columidProducto where ev.$columnId=${Utilidades.idEvento} order by e.$columcliente");
+
     return result;
   }
-
-//select e.cliente,p.nombre,d.cantidad,e.fecha,e.estado from evento as e inner JOIN detalle_pedido as d on e.id=d.idpedido inner join productos as p on d.idproducto=p.id where evento=1
 }

@@ -136,7 +136,7 @@ class _ReportesState extends State<Reportes> {
                                 mainAxisAlignment: pw.MainAxisAlignment.center,
                                 children: [
                                   pw.Text(producto[i],
-                                      style: pw.TextStyle(fontSize: 12)),
+                                      style: const pw.TextStyle(fontSize: 12)),
                                   pw.Divider(thickness: 1)
                                 ]),
                             pw.Column(
@@ -145,13 +145,13 @@ class _ReportesState extends State<Reportes> {
                                 mainAxisAlignment: pw.MainAxisAlignment.center,
                                 children: [
                                   pw.Text(cantidad[i].toString(),
-                                      style: pw.TextStyle(fontSize: 12)),
+                                      style: const pw.TextStyle(fontSize: 12)),
                                   pw.Divider(thickness: 1)
                                 ]),
                           ]),
                         pw.TableRow(children: [
                           pw.Text(
-                            "Total: ${_costo}",
+                            "Total: $_costo",
                           )
                         ])
                       ])
@@ -175,12 +175,6 @@ class _ReportesState extends State<Reportes> {
       nombrePro = (_pedidos[0]["nombre"].toString());
     }
     for (var element in _pedidos) {
-      print(element["nombre"].toString() +
-          " : " +
-          element["cantidad"].toString() +
-          " : " +
-          element["costo"].toString());
-
       _precio += element["precioT"]! as double;
       _costo += element["costoT"] as double;
       if (idpro != element["idProducto"]) {
