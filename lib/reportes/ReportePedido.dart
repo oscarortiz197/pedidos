@@ -1,6 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:pdf/pdf.dart';
+
 import 'package:pedidos/componentes/alertas.dart';
 import 'package:pedidos/componentes/utilidades.dart';
 import 'package:pedidos/main.dart';
@@ -84,45 +86,78 @@ class _ReportesState extends State<Reportes> {
             ),
       floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            final Uint8List pdf1;
             final pdf = pw.Document();
 
-            pdf.addPage(
-              pw.Page(
+            pdf.addPage(pw.Page(
                 build: (pw.Context context) => pw.Column(children: [
-                  pw.Text("Fecha: ${Utilidades.fechaEvento}"),
-                  pw.Row(),
-                  pw.Table(children: [
-                    pw.TableRow(children: [
-                      pw.Text("Producto"),
-                      pw.Text("Cantidad"),
-                    ]),
-                    pw.TableRow(children: [
-                      pw.ListView.builder(
-                          itemBuilder: (context, index) {
-                            return pw.Column(children: [
-                              pw.Row(children:[ pw.Text(producto[index])],
-                              ),
-                              pw.Row(children: [pw.Text(cantidad[index].toString())])
-                            ]
-                            );
-                          },
-                          itemCount: producto.length)
-                    ])
-                  ]),
-                ]),
-              ),
-            );
+                      pw.Table(children: [
+                        pw.TableRow(children: [
+                          pw.Column(
+                              crossAxisAlignment: pw.CrossAxisAlignment.center,
+                              mainAxisAlignment: pw.MainAxisAlignment.center,
+                              children: [
+                                pw.Text(
+                                  "PEDIDO PARA EL PROVEEDOR ${Utilidades.fechaEvento}",
+                                  style: pw.TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: pw.FontWeight.bold),
+                                ),
+                                pw.SizedBox(height: 40)
+                              ]),
+                          pw.SizedBox(height: 15)
+                        ]),
+                        pw.TableRow(children: [
+                          pw.Column(
+                              crossAxisAlignment: pw.CrossAxisAlignment.center,
+                              mainAxisAlignment: pw.MainAxisAlignment.center,
+                              children: [
+                                pw.Text("PRODUCTO",
+                                    style: pw.TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: pw.FontWeight.bold)),
+                                pw.Divider(thickness: 1)
+                              ]),
+                          pw.Column(
+                              crossAxisAlignment: pw.CrossAxisAlignment.center,
+                              mainAxisAlignment: pw.MainAxisAlignment.center,
+                              children: [
+                                pw.Text("CANTIDAD",
+                                    style: pw.TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: pw.FontWeight.bold)),
+                                pw.Divider(thickness: 1)
+                              ])
+                        ]),
+                        for (var i = 0; i < producto.length; i++)
+                          pw.TableRow(children: [
+                            pw.Column(
+                                crossAxisAlignment:
+                                    pw.CrossAxisAlignment.center,
+                                mainAxisAlignment: pw.MainAxisAlignment.center,
+                                children: [
+                                  pw.Text(producto[i],
+                                      style: pw.TextStyle(fontSize: 12)),
+                                  pw.Divider(thickness: 1)
+                                ]),
+                            pw.Column(
+                                crossAxisAlignment:
+                                    pw.CrossAxisAlignment.center,
+                                mainAxisAlignment: pw.MainAxisAlignment.center,
+                                children: [
+                                  pw.Text(cantidad[i].toString(),
+                                      style: pw.TextStyle(fontSize: 12)),
+                                  pw.Divider(thickness: 1)
+                                ]),
+                          ]),
+                        pw.TableRow(children: [
+                          pw.Text(
+                            "Total: ${_costo}",
+                          )
+                        ])
+                      ])
+                    ])));
 
-            final file = File('example.pdf');
-            // await file.writeAsBytes(await pdf.save());
-            // PdfPreview(
-            //   build: (format) => pdf.save(),
-            // );
             Printing.sharePdf(bytes: await pdf.save(), filename: 'example.pdf');
-
-            print(pdf);
-            Alerta.mensaje(context, "boton tocado", Colors.black);
           },
           child: const Icon(Icons.print)),
     );
@@ -142,10 +177,12 @@ class _ReportesState extends State<Reportes> {
     for (var element in _pedidos) {
       print(element["nombre"].toString() +
           " : " +
-          element["cantidad"].toString());
+          element["cantidad"].toString() +
+          " : " +
+          element["costo"].toString());
 
-      _precio += element["precio"] as double;
-      _costo += element["costo"] as double;
+      _precio += element["precioT"]! as double;
+      _costo += element["costoT"] as double;
       if (idpro != element["idProducto"]) {
         idpro = element["idProducto"] as int;
         cantidad.add(contador);
@@ -159,9 +196,7 @@ class _ReportesState extends State<Reportes> {
     }
     cantidad.add(contador);
     producto.add(nombrePro);
-    // for (int i = 0; i < producto.length; i++) {
-    //   print("producto :" + producto[i] + " cantidad " + cantidad[i].toString());
-    // }
+
     setState(() {});
   }
 }

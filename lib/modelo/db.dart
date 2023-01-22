@@ -175,8 +175,8 @@ class DB {
   Future<List<Map<String, Object?>>> getListaEncabezado() async {
     //
     // List<Map<String, Object?>> result = await _database.rawQuery('SELECT * FROM $tableEncabezado where $columidEvento = ${Utilidades.idEvento}');
-    List<Map<String, Object?>> result =
-        await _database.query(tableEncabezado, where:'$columidEvento=?',whereArgs: [Utilidades.idEvento] );
+    List<Map<String, Object?>> result = await _database.query(tableEncabezado,
+        where: '$columidEvento=?', whereArgs: [Utilidades.idEvento]);
     return result;
   }
 
@@ -260,24 +260,24 @@ class DB {
   Future<List<Map<String, Object?>>> getListaPedido(int enc) async {
     //
     //String consulta='select ee.cliente,p.nombre,d.cantidad,e.fecha,e.estado from $tableEvento as e inner JOIN $tableEncabezado as ee on e.$columnId=ee.$columidEvento inner join $tableDetalle as d on ee.$columnId=d.$columidEncabezado inner join $tableProducto as p on p.$columnId=d.$columidProducto where $tableEvento=${Utilidades.idEvento}';
-    List<Map<String, Object?>> result = await _database.rawQuery("select e.id as encabezado,d.id, e.$columcliente,d.$columcantidad, p.$columnNombre,p.$columnPrecio from $tableEvento as ev inner JOIN $tableEncabezado as e on ev.$columnId=e.$columidEvento inner JOIN $tableDetalle as d on e.$columnId=d.$columidEncabezado inner join $tableProducto as p on p.$columnId= d.$columidProducto where ev.$columnId=${Utilidades.idEvento} and e.$columnId = $enc");
-        
+    List<Map<String, Object?>> result = await _database.rawQuery(
+        "select e.id as encabezado,d.id, e.$columcliente,d.$columcantidad, p.$columnNombre,p.$columnPrecio from $tableEvento as ev inner JOIN $tableEncabezado as e on ev.$columnId=e.$columidEvento inner JOIN $tableDetalle as d on e.$columnId=d.$columidEncabezado inner join $tableProducto as p on p.$columnId= d.$columidProducto where ev.$columnId=${Utilidades.idEvento} and e.$columnId = $enc");
 
     return result;
   }
-
 
   Future<List<Map<String, Object?>>> getListaPedidos() async {
     //
     //String consulta='select ee.cliente,p.nombre,d.cantidad,e.fecha,e.estado from $tableEvento as e inner JOIN $tableEncabezado as ee on e.$columnId=ee.$columidEvento inner join $tableDetalle as d on ee.$columnId=d.$columidEncabezado inner join $tableProducto as p on p.$columnId=d.$columidProducto where $tableEvento=${Utilidades.idEvento}';
-    List<Map<String, Object?>> result = await _database.rawQuery("select e.id as encabezado,d.id, e.$columcliente,d.$columcantidad, p.$columnNombre,p.$columnPrecio,p.$columnCosto,p.id as idProducto from $tableEvento as ev inner JOIN $tableEncabezado as e on ev.$columnId=e.$columidEvento inner JOIN $tableDetalle as d on e.$columnId=d.$columidEncabezado inner join $tableProducto as p on p.$columnId= d.$columidProducto where ev.$columnId=${Utilidades.idEvento} order by p.id ASC");
-        
+    List<Map<String, Object?>> result = await _database.rawQuery(
+        "select e.id as encabezado,d.id, e.$columcliente,d.$columcantidad, p.$columnNombre,p.$columnPrecio*d.$columcantidad as precioT ,p.$columnCosto*d.$columcantidad as costoT,p.id as idProducto from $tableEvento as ev inner JOIN $tableEncabezado as e on ev.$columnId=e.$columidEvento inner JOIN $tableDetalle as d on e.$columnId=d.$columidEncabezado inner join $tableProducto as p on p.$columnId= d.$columidProducto where ev.$columnId=${Utilidades.idEvento} order by p.id ASC");
 
     return result;
   }
 
-  Future <List <Map<String,dynamic>>> getListaPedidosSuma()async{
-    List <Map<String,dynamic>> result= await _database.rawQuery("Select  sum(d.idproducto) as count  from evento as ev inner join encabezado as e on ev.id=e.idEvento inner join detalle as d on e.id=d.idEncabezado inner join producto as p on d.idproducto=p.id where  ev.id=${Utilidades.idEvento} order by p.id ASC");
+  Future<List<Map<String, dynamic>>> getListaPedidosSuma() async {
+    List<Map<String, dynamic>> result = await _database.rawQuery(
+        "Select  sum(d.idproducto) as count  from evento as ev inner join encabezado as e on ev.id=e.idEvento inner join detalle as d on e.id=d.idEncabezado inner join producto as p on d.idproducto=p.id where  ev.id=${Utilidades.idEvento} order by p.id ASC");
     return result;
   }
 

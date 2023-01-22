@@ -19,7 +19,7 @@ class _DetallesState extends State<Detalles> {
     await _myDatabase.initializeDatabase();
     map = await _myDatabase
         .getListaPedido(Utilidades.listaEncabezado[Utilidades.idEncabezado]);
-      
+
     for (int i = 0; i < map.length; i++) {
       total += (map[i]["cantidad"] as int) * (map[i]["precio"] as double);
     }
@@ -45,7 +45,7 @@ class _DetallesState extends State<Detalles> {
     } else {
       return Scaffold(
         appBar: AppBar(
-          title:const Text("Detalles de pedido"),
+          title: const Text("Detalles de pedido"),
         ),
         body: Center(
           child: SingleChildScrollView(
@@ -109,7 +109,8 @@ class _DetallesState extends State<Detalles> {
                 IconButton(
                   onPressed: () {
                     if (Utilidades.listaEncabezado[Utilidades.idEncabezado] !=
-                        Utilidades.listaEncabezado[Utilidades.listaEncabezado.length-1]) {
+                        Utilidades.listaEncabezado[
+                            Utilidades.listaEncabezado.length - 1]) {
                       Utilidades.idEncabezado += 1;
                       getDataFromDb();
                     } else {
