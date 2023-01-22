@@ -65,7 +65,7 @@ class DB {
 
         for (int i = 0; i < 11; i++) {
           String sql =
-              "insert into $tableProducto ($columnId, $columnNombre, $columnCosto, $columnPrecio) values ($i, 'producto $i', 0.75, 1.00)";
+              "insert into $tableProducto ($columnId, $columnNombre, $columnCosto, $columnPrecio )values (${i + 1}, '${Utilidades.productos[i]}', ${Utilidades.costos[i]}, ${Utilidades.precios[i]})";
           await db.rawInsert(sql);
           DateTime myDate = DateTime(2023, 01, i); // verificar
           String dateString = myDate.toString().substring(0, 10);

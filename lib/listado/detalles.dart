@@ -56,6 +56,7 @@ class _DetallesState extends State<Detalles> {
                     onPressed: () {
                       if (Utilidades.idEncabezado > 0) {
                         Utilidades.idEncabezado -= 1;
+                        total = 0;
                         getDataFromDb();
                       } else {
                         Alerta.mensaje(
@@ -112,6 +113,7 @@ class _DetallesState extends State<Detalles> {
                         Utilidades.listaEncabezado[
                             Utilidades.listaEncabezado.length - 1]) {
                       Utilidades.idEncabezado += 1;
+                      total = 0;
                       getDataFromDb();
                     } else {
                       Alerta.mensaje(

@@ -35,54 +35,65 @@ class _EditarProductoState extends State<EditarProducto> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Editar Producto"),
-      ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Container(
-            margin: const EdgeInsets.symmetric(vertical: 30),
-            width: 280,
-            height: size.height > 400 ? size.height - 180 : 300,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Texto(controller: _nombreController, msj: "Ingrese el nombre"),
-                NumDouble(
-                    controller: _precioController, msj: "Ingrese el precio"),
-                NumDouble(
-                    controller: _costoController, msj: "Ingrese el costo"),
-                ElevatedButton(
-                  onPressed: () async {
-                    List<String> campos = [
-                      _nombreController.text,
-                      _precioController.text,
-                      _costoController.text
-                    ];
-                    if (Validar.validar(campos)) {
-                      String nombre = _nombreController.text;
-                      double? costo = double.tryParse(_costoController.text);
-                      double? precio = double.tryParse(_precioController.text);
-                      Producto pro = Producto(
-                          id: widget.producto_select.id,
-                          nombre: nombre,
-                          costo: costo,
-                          precio: precio);
-                      if (await widget.myDatabase.update_producto(pro) > 0) {
-                        Alerta.mensaje(context, "Se ha actualizado el registro",
-                            Colors.green);
-                        Navigator.pop(context, true);
-                      }
-                    }
-                  },
-                  child: const Text("Guardar"),
-                )
-              ],
+    return WillPopScope(
+        onWillPop: () async {
+          Navigator.maybePop(context, false);
+          return true;
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text("Editar Producto"),
+          ),
+          body: SingleChildScrollView(
+            child: Center(
+              child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 30),
+                width: 280,
+                height: size.height > 400 ? size.height - 180 : 300,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Texto(
+                        controller: _nombreController,
+                        msj: "Ingrese el nombre"),
+                    NumDouble(
+                        controller: _precioController,
+                        msj: "Ingrese el precio"),
+                    NumDouble(
+                        controller: _costoController, msj: "Ingrese el costo"),
+                    ElevatedButton(
+                      onPressed: () async {
+                        List<String> campos = [
+                          _nombreController.text,
+                          _precioController.text,
+                          _costoController.text
+                        ];
+                        if (Validar.validar(campos)) {
+                          String nombre = _nombreController.text;
+                          double? costo =
+                              double.tryParse(_costoController.text);
+                          double? precio =
+                              double.tryParse(_precioController.text);
+                          Producto pro = Producto(
+                              id: widget.producto_select.id,
+                              nombre: nombre,
+                              costo: costo,
+                              precio: precio);
+                          if (await widget.myDatabase.update_producto(pro) >
+                              0) {
+                            Alerta.mensaje(context,
+                                "Se ha actualizado el registro", Colors.green);
+                            Navigator.pop(context, true);
+                          }
+                        }
+                      },
+                      child: const Text("Guardar"),
+                    )
+                  ],
+                ),
+              ),
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }
