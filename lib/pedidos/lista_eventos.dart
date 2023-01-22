@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:pedidos/componentes/utilidades.dart';
+import 'package:pedidos/reportes/ReportePedido.dart';
 import 'package:pedidos/modelo/eventos.dart';
 import 'package:pedidos/pedidos/nuevo_pedido.dart';
 import 'package:sqflite/sqflite.dart';
@@ -53,21 +54,16 @@ class _LstaEventosState extends State<LstaEventos> {
                 )
               : ListView.builder(
                   itemBuilder: (context, index) {
-                    return InkWell(
-                      // permite la utilizacion del evento onLongPress
-                      onLongPress: () async {
-                        int opcion = await Alerta.dialogoOpciones(context);
-                        // print(opcion.toString() + "hey ");
-                        if (opcion == 1) {
-                          datechoicer(opcion, index); // para actualizar
-                        }
-                      },
-                      child: InkWell(
+                    return
+                       InkWell(
                         onLongPress: () async {
                           int opcion = await Alerta.dialogoOpciones(context);
                           if (opcion == 1) {
                             datechoicer(opcion, index); // para actualizar
-                          }
+                          }else if(opcion==2){
+
+                        }
+
                         },
                         child: Card(
                           child: ListTile(
@@ -81,7 +77,7 @@ class _LstaEventosState extends State<LstaEventos> {
                             },
                             title: Text('Entrega ${eventos[index].fecha}'),
                           ),
-                        ),
+                       
                       ),
                     );
                   },

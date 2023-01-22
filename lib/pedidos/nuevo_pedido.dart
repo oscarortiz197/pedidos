@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pedidos/componentes/alertas.dart';
 import 'package:pedidos/modelo/producto.dart';
 import 'package:pedidos/pedidos/confirmar_pedido.dart';
-import 'package:pedidos/productos/nuevo_producto.dart';
 import '../modelo/db.dart';
 
 class NuevoPedido extends StatefulWidget {
@@ -123,19 +122,19 @@ class _NuevoPedidoState extends State<NuevoPedido> {
 
   datos() {
     bool estado = false;
-    cantidades.forEach((element) {
+    for (var element in cantidades) {
       if (element > 0) {
         estado = true;
       }
-    });
+    }
 
-    if (estado) {
-      Navigator.push(
+    if (estado)  {
+    Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => ConfirmarPedido(
                           myDatabase: _myDatabase,cantidades: cantidades,productos: productos,
-                        )));
+                        )));                                         
     } else {
       Alerta.mensaje(context, "Selecciones un registro", Colors.red);
     }

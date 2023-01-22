@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pedidos/componentes/alertas.dart';
 import 'package:pedidos/componentes/utilidades.dart';
 import 'package:pedidos/modelo/detalle_pedido.dart';
 import 'package:pedidos/modelo/encabazo_pedido.dart';
@@ -15,7 +16,7 @@ class ConfirmarPedido extends StatefulWidget {
   final List cantidades;
   
   
-  ConfirmarPedido(
+  const ConfirmarPedido(
       {super.key,
       required this.myDatabase,
       required this.productos,
@@ -40,17 +41,17 @@ class _ConfirmarPedidoState extends State<ConfirmarPedido> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Confimar pedido"),
+        title: const Text("Confimar pedido"),
       ),
       body: SingleChildScrollView(
         child: Center(
-          child: Container(
+          child: SizedBox(
             width: 280,
             child: Column(
               children: [
                 Texto(controller: _ClinteController, msj: "Nombre Cliente"),
                 Container(
-                  margin: EdgeInsets.only(top: 45),
+                  margin:const EdgeInsets.only(top: 45),
                   height: 350,
                   child: ListView.builder(
                       itemBuilder: (context, index) {
@@ -87,14 +88,12 @@ class _ConfirmarPedidoState extends State<ConfirmarPedido> {
       floatingActionButton: FloatingActionButton(
           onPressed: ()async {
             if (await guardar()) {
-              // Navigator.pop(context);
-              // Navigator.pop(context);
-              // Navigator.push(context,
-              //     MaterialPageRoute(builder: (context) => const NuevoPedido()));
-              print( await widget.myDatabase.getListaEncabezado());
-             print( await widget.myDatabase.getListaDetalle());
+              Navigator.pop(context);
+              Navigator.pop(context);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const NuevoPedido()));
             } else {
-              print("Cliente es un campo requerido ");
+             Alerta.mensaje(context, "Ingrese el nombre del cliente", Colors.red);
             }
           },
           child: const Icon(Icons.save)),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pedidos/componentes/utilidades.dart';
 import 'package:pedidos/modelo/eventos.dart';
+import '../componentes/alertas.dart';
 import '../modelo/db.dart';
+import '../reportes/ReportePedido.dart';
 import 'encabezados_pedidos.dart';
 
 class ListaEventos extends StatefulWidget {
@@ -50,8 +52,13 @@ class _ListaEventosState extends State<ListaEventos> {
               : ListView.builder(
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onLongPress: () {
-                        print("generar pedidos resumenes");
+                      onLongPress: ()async {
+                        int opcion = await Alerta.dialogoOpcionesReporte(context);
+                        if(opcion==1){
+                          Utilidades.fechaEvento=eventos[index].fecha;
+                          Utilidades.idEvento=eventos[index].id;                        
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const Reportes(),));
+                        }
                       },
                       child: Card(
                         child: ListTile(

@@ -19,12 +19,14 @@ class _EncabezadosState extends State<Encabezados> {
   int count = 0;
 
   getDataFromDb() async {
-    encabezados.clear();
     await _myDatabase.initializeDatabase();
     List<Map<String, Object?>> map = await _myDatabase.getListaEncabezado();
     for (int i = 0; i < map.length; i++) {
       encabezados.add(Encabezado.toEmp(map[i]));
+      Utilidades.listaEncabezado.add(map[i]['id']as int);
+     print(map[i]);
     }
+    print(Utilidades.listaEncabezado);
     count = encabezados.length;
     setState(() {
       isLoading = false;
@@ -34,6 +36,8 @@ class _EncabezadosState extends State<Encabezados> {
   @override
   void initState() {
     super.initState();
+    encabezados.clear();
+    Utilidades.listaEncabezado.clear();
     getDataFromDb();
   }
 
@@ -56,7 +60,7 @@ class _EncabezadosState extends State<Encabezados> {
                     return Card(
                       child: ListTile(
                         onTap: () {
-                          
+                          Utilidades.idEncabezado=index;
                           Navigator.push(
                               context,
                               MaterialPageRoute(

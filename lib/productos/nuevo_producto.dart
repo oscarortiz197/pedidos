@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pedidos/componentes/texfield.dart';
 import 'package:pedidos/componentes/validacion.dart';
-import 'package:pedidos/inicio.dart';
 import 'package:pedidos/modelo/producto.dart';
-import 'package:pedidos/productos/lista_productos.dart';
 import '../componentes/alertas.dart';
 import '../modelo/db.dart';
 
@@ -16,9 +14,9 @@ class NuevoProducto extends StatefulWidget {
 }
 
 class _NuevoProductoState extends State<NuevoProducto> {
-  TextEditingController _NombreController = TextEditingController();
-  TextEditingController _precioController = TextEditingController();
-  TextEditingController _costoController = TextEditingController();
+  final TextEditingController _nombreController = TextEditingController();
+  final TextEditingController _precioController = TextEditingController();
+  final TextEditingController _costoController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +35,7 @@ class _NuevoProductoState extends State<NuevoProducto> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Texto(controller: _NombreController, msj: "Ingrese el nombre"),
+                Texto(controller: _nombreController, msj: "Ingrese el nombre"),
                 NumDouble(
                     controller: _precioController, msj: "Ingrese el precio"),
                 NumDouble(
@@ -46,13 +44,13 @@ class _NuevoProductoState extends State<NuevoProducto> {
                   onPressed: () async {
                     int id = await widget.myDatabase.maximo_id_prod() + 1;
                     List<String> datos = [
-                      _NombreController.text,
+                      _nombreController.text,
                       _precioController.text,
                       _costoController.text
                     ];
                     if (Validar.validar(datos)) {
                       datos.clear();
-                      String nombre = _NombreController.text;
+                      String nombre = _nombreController.text;
                       double? costo = double.tryParse(_costoController.text);
                       double? precio = double.tryParse(_precioController.text);
                       Producto prod = Producto(
@@ -66,10 +64,10 @@ class _NuevoProductoState extends State<NuevoProducto> {
                         Navigator.pop(context, true);
                       }
                     } else {
-                      Alerta.mensaje(context,'Ingrese todos los datos',Colors.red);
+                       Alerta.mensaje(context,'Ingrese todos los datos',Colors.red);
                     }
                   },
-                  child: Text("Guardar"),
+                  child: const Text("Guardar"),
                 )
               ],
             ),

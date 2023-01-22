@@ -5,14 +5,14 @@ import 'package:pedidos/productos/lista_productos.dart';
 import 'listado/lista_Eventos.dart';
 
 // prueba de cambio
-class inicio extends StatefulWidget {
-  const inicio({super.key});
+class Inicio extends StatefulWidget {
+  const Inicio({super.key});
 
   @override
-  State<inicio> createState() => _inicioState();
+  State<Inicio> createState() => _InicioState();
 }
 
-class _inicioState extends State<inicio> {
+class _InicioState extends State<Inicio> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -20,6 +20,7 @@ class _inicioState extends State<inicio> {
       child: Scaffold(
         body: SafeArea(
           child: Column(
+            // ignore: prefer_const_literals_to_create_immutables
             children: [
               const TabBar(
                 labelColor: Colors.black,
@@ -35,7 +36,7 @@ class _inicioState extends State<inicio> {
                   )
                 ],
               ),
-              Expanded(
+             const Expanded(
                 child: TabBarView(
                   children: [
                     const ListaEventos(),

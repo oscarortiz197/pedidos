@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class Alerta {
-  static mensaje(BuildContext context, String mensaje, Color) {
+  static mensaje(BuildContext context, String mensaje, Color color) {
     ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(backgroundColor: Color, content: Text(mensaje)));
+        .showSnackBar(SnackBar(backgroundColor: color, content: Text(mensaje)));
   }
 
   static Future<int> dialogoOpciones(BuildContext context) async {
@@ -32,6 +32,35 @@ class Alerta {
                   },
                   child: const Text('Editar'),
                 ),
+                
+              ],
+            ),
+          ),
+        );
+      },
+    );
+    return opcion;
+  }
+
+
+
+   static Future<int> dialogoOpcionesReporte(BuildContext context) async {
+    int opcion = 0;
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Elige una opción'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                SimpleDialogOption(
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    opcion = 1;
+                  },
+                  child: const Text("Pedido proveedor"),
+                )
               ],
             ),
           ),
@@ -57,6 +86,7 @@ class Alerta {
             estado = true;
             Navigator.pop(context);
           },
+          // ignore: sort_child_properties_last
           child: const Text(
             "Borrar",
             style: TextStyle(color: Colors.white, fontSize: 20),
