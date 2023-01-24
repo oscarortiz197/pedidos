@@ -61,13 +61,20 @@ class _LstaEventosState extends State<LstaEventos> {
                           if (opcion == 1) {
                             datechoicer(opcion, index); // para actualizar
                           }else if(opcion==2){
-
+                              if(await _myDatabase.delete_Evento(eventos[index])>0){
+                                Alerta.mensaje(context, "Evento Eliminado", Colors.red);
+                                getDataFromDb();
+                                setState(() {
+                                  
+                                });
+                              }
                         }
 
                         },
                         child: Card(
                           child: ListTile(
                             onTap: () {
+                              Utilidades.fechaEvento=eventos[index].fecha;
                               Utilidades.idEvento = eventos[index].id;
                               Navigator.push(
                                   context,

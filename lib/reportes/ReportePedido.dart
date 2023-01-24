@@ -86,11 +86,12 @@ class _ReportesState extends State<Reportes> {
             ),
       floatingActionButton: FloatingActionButton(
           onPressed: () async {
+            List<pw.Widget>widgets=[];
             final pdf = pw.Document();
 
-            pdf.addPage(pw.Page(
-                build: (pw.Context context) => pw.Column(children: [
-                      pw.Table(children: [
+            // pdf.addPage(pw.Page(
+            //     build: (pw.Context context) => pw.Column(children: [
+                     widgets.add( pw.Table(children: [
                         pw.TableRow(children: [
                           pw.Column(
                               crossAxisAlignment: pw.CrossAxisAlignment.center,
@@ -127,8 +128,10 @@ class _ReportesState extends State<Reportes> {
                                         fontWeight: pw.FontWeight.bold)),
                                 pw.Divider(thickness: 1)
                               ])
-                        ]),
+                        ]), 
+                     ]));
                         for (var i = 0; i < producto.length; i++)
+                         widgets.add(pw.Table(children: [
                           pw.TableRow(children: [
                             pw.Column(
                                 crossAxisAlignment:
@@ -149,13 +152,13 @@ class _ReportesState extends State<Reportes> {
                                   pw.Divider(thickness: 1)
                                 ]),
                           ]),
-                        pw.TableRow(children: [
+                          ]));
+                          widgets.add(
                           pw.Text(
                             "Total: $_costo",
                           )
-                        ])
-                      ])
-                    ])));
+                        );
+                     pdf.addPage(pw.MultiPage(build: (context) => widgets,));
 
             Printing.sharePdf(bytes: await pdf.save(), filename: 'example.pdf');
           },

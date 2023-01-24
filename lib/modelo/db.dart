@@ -63,7 +63,7 @@ class DB {
         await db.execute(
             'CREATE TABLE $tableDetalle ($columnId INTEGER PRIMARY KEY AUTOINCREMENT, $columidEncabezado INTEGER, $columidProducto INTEGER, $columcantidad INTEGER, FOREIGN KEY ($columidEncabezado) REFERENCES $tableEncabezado ($columnId) ON UPDATE CASCADE ON DELETE CASCADE , FOREIGN KEY ($columidProducto) REFERENCES $tableProducto ($columnId) ON UPDATE CASCADE ON DELETE CASCADE)');
 
-        for (int i = 0; i < 11; i++) {
+        for (int i = 0; i < Utilidades.productos.length; i++) {
           String sql =
               "insert into $tableProducto ($columnId, $columnNombre, $columnCosto, $columnPrecio )values (${i + 1}, '${Utilidades.productos[i]}', ${Utilidades.costos[i]}, ${Utilidades.precios[i]})";
           await db.rawInsert(sql);
@@ -159,6 +159,14 @@ class DB {
     return rowsUpdated;
     //
   }
+  Future<int> delete_Evento(Evento evento) async {
+    //
+    int rowsDeleted = await _database
+        .delete(tableEvento, where: '$columnId = ?', whereArgs: [evento.id]);
+    return rowsDeleted;
+    //
+  }
+  
 
   Future<int> count_Evento() async {
     //
@@ -277,9 +285,16 @@ class DB {
 
   Future<List<Map<String, Object?>>> getListaPedidoEventoCliente() async {
     //
-    //String consulta='select ee.cliente,p.nombre,d.cantidad,e.fecha,e.estado from $tableEvento as e inner JOIN $tableEncabezado as ee on e.$columnId=ee.$columidEvento inner join $tableDetalle as d on ee.$columnId=d.$columidEncabezado inner join $tableProducto as p on p.$columnId=d.$columidProducto where $tableEvento=${Utilidades.idEvento}';
+    //String consulta='select ee.cliente,p.nombre,d.cantidad,e.fecha,e.estado,p.id,p.costo,p.precio from $tableEvento as e inner JOIN $tableEncabezado as ee on e.$columnId=ee.$columidEvento inner join $tableDetalle as d on ee.$columnId=d.$columidEncabezado inner join $tableProducto as p on p.$columnId=d.$columidProducto where $tableEvento=${Utilidades.idEvento}';
     List<Map<String, Object?>> result = await _database.rawQuery(
         "select e.id as encabezado,d.id, e.$columcliente,d.$columcantidad, p.$columnNombre,p.$columnPrecio from $tableEvento as ev inner JOIN $tableEncabezado as e on ev.$columnId=e.$columidEvento inner JOIN $tableDetalle as d on e.$columnId=d.$columidEncabezado inner join $tableProducto as p on p.$columnId= d.$columidProducto where ev.$columnId=${Utilidades.idEvento} order by e.$columcliente");
+
+    return result;
+  }
+
+  Future<List<Map<String, Object?>>> getListaPedidoEventoCliente1() async {
+   List<Map<String, Object?>> result = await _database.rawQuery(
+        "select e.id as idencabezado , d.cantidad , p.* from $tableEvento as ev inner JOIN $tableEncabezado as e on ev.$columnId=e.$columidEvento inner JOIN $tableDetalle as d on e.$columnId=d.$columidEncabezado inner join $tableProducto as p on p.$columnId= d.$columidProducto where ev.$columnId=${Utilidades.idEvento} order by e.$columcliente");
 
     return result;
   }

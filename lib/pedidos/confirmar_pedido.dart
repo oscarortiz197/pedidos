@@ -27,15 +27,20 @@ class ConfirmarPedido extends StatefulWidget {
 }
 
 class _ConfirmarPedidoState extends State<ConfirmarPedido> {
+  final TextEditingController _ClinteController = TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
+    if (Utilidades.cliente!=""){
+        _ClinteController.text=Utilidades.cliente;
+        Utilidades.cliente='';
+    }
     super.initState();
     procesar();
   }
   double total =0;
   Map <String,dynamic> productos_select={};
-  final TextEditingController _ClinteController = TextEditingController();
+  
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +92,7 @@ class _ConfirmarPedidoState extends State<ConfirmarPedido> {
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: ()async {
+            
             if (await guardar()) {
               Navigator.pop(context);
               Navigator.pop(context);
@@ -95,12 +101,18 @@ class _ConfirmarPedidoState extends State<ConfirmarPedido> {
             } else {
              Alerta.mensaje(context, "Ingrese el nombre del cliente", Colors.red);
             }
+            
           },
           child: const Icon(Icons.save)),
     );
   }
 
   Future<bool> guardar()async {
+    if (Utilidades.idEliminar!=0){
+     await widget.myDatabase.delete_Encabezado(Encabezado(id: Utilidades.idEliminar, idEvento: null, cliente: ""));
+     Utilidades.idEliminar=0;
+    }
+
     if (_ClinteController.text.isEmpty) {
       return false;
     } else {

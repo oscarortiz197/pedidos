@@ -4,6 +4,8 @@ class Utilidades {
   static String nombre = '';
   static int idEncabezado = 0;
   static List<int> listaEncabezado = [];
+  static int idEliminar=0;
+  static String cliente = '';
 
   // datos por defecto base de datos
   static List<String> productos = [

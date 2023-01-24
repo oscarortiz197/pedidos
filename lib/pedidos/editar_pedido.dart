@@ -5,14 +5,16 @@ import 'package:pedidos/modelo/producto.dart';
 import 'package:pedidos/pedidos/confirmar_pedido.dart';
 import '../modelo/db.dart';
 
-class NuevoPedido extends StatefulWidget {
-  const NuevoPedido({super.key});
+class EditarPedido extends StatefulWidget {
+    List <Producto> anterior=[];
+    List can=[];
+   EditarPedido({super.key,required this.anterior,required this.can});
 
   @override
-  State<NuevoPedido> createState() => _NuevoPedidoState();
+  State<EditarPedido> createState() => _EditarPedidoState();
 }
 
-class _NuevoPedidoState extends State<NuevoPedido> {
+class _EditarPedidoState extends State<EditarPedido> {
   bool isLoading = true;
   List<Producto> productos = List.empty(growable: true);
   List<int> cantidades = [];
@@ -31,6 +33,16 @@ class _NuevoPedidoState extends State<NuevoPedido> {
     }
     cantidades = List.filled(productos.length, 0);
     count = await _myDatabase.count_Producto();
+  
+  for (int i = 0; i < widget.anterior.length; i++) {
+      for(int j=0;j<map.length;j++){
+      if(productos[j].id==widget.anterior[i].id){      
+        cantidades[j]=widget.can[i];
+      }
+      }
+    }
+    print(widget.anterior);
+    print(widget.can);
 
     // print(productos);
     setState(() {
