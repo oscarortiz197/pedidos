@@ -150,84 +150,44 @@ class _EncabezadosState extends State<Encabezados> {
     }
 
     List<pw.Widget> widgets = [];
-    widgets.add(
-      pw.Column(
-        children: [
+   
+//*********************** */*************** */*************** */
+widgets.add(pw.Center(child: pw.Text("FECHA DE ENTREGA "+Utilidades.fechaEvento.toString())));
+widgets.add(pw.SizedBox(height: 10));
+    for (int i = 0; i < data.length; i++){
+      bool estado=true;
+    widgets.add(pw.Divider());
+        for (int j = 0; j < data[i]["productos"].length; j++){
+         
+       if( estado){
+         widgets.add(pw.SizedBox(height: 2));
+         widgets.add(pw.Row(mainAxisAlignment: pw.MainAxisAlignment.spaceAround, children: [ pw.Text(data[i]['cliente']),pw.Text('total \$'+data[i]['total'].toString()) ])); 
+         widgets.add(pw.SizedBox(height: 5));
+        widgets.add(pw.Row(mainAxisAlignment: pw.MainAxisAlignment.spaceAround, children: [
           pw.Container(
-              margin:
-                  const pw.EdgeInsets.symmetric(vertical: 20, horizontal: 0),
-              child: pw.Text("Entrega de pedidos ${Utilidades.fechaEvento}",
-                  style: const pw.TextStyle(fontSize: 20))),
-          pw.Table(
-            children: [
-              pw.TableRow(children: [
-                pw.Row(
-                    mainAxisAlignment: pw.MainAxisAlignment.spaceEvenly,
-                    children: [
-                      pw.Container(
-                          width: 120,
-                          child: pw.Center(child: pw.Text("Cliente"))),
-                      pw.Container(
-                          width: 160,
-                          child: pw.Center(child: pw.Text("Productos"))),
-                      pw.Container(
-                          width: 100,
-                          child: pw.Center(child: pw.Text("Cantidad"))),
-                      pw.Container(
-                          width: 100,
-                          child: pw.Center(child: pw.Text("Total"))),
-                    ])
-              ]),
-            ],
-          )
-        ],
-      ),
-    );
-    for (int i = 0; i < data.length; i++) {
-      widgets.add(pw.Table(children: [
-        pw.TableRow(
-          decoration: pw.BoxDecoration(
-              border: pw.Border.all(color: PdfColors.black, width: 1)),
-          children: [
-            pw.Container(
-              margin: const pw.EdgeInsets.only(top: 10, bottom: 10),
-              child: pw.Row(
-                  mainAxisAlignment: pw.MainAxisAlignment.spaceEvenly,
-                  children: [
-                    pw.Container(
-                        width: 120,
-                        child: pw.Center(
-                          child: pw.Text(data[i]["cliente"]),
-                        )),
-                    pw.Container(
-                      width: 160,
-                      child: pw.Column(
-                        children: [
-                          for (int j = 0; j < data[i]["productos"].length; j++)
-                            pw.Text(data[i]['productos'][j].toString()),
-                        ],
-                      ),
-                    ),
-                    pw.Container(
-                      width: 100,
-                      child: pw.Column(
-                        children: [
-                          for (int j = 0; j < data[i]["productos"].length; j++)
-                            pw.Text(data[i]['cantidades'][j].toString()),
-                        ],
-                      ),
-                    ),
-                    pw.Container(
-                        width: 100,
-                        child: pw.Center(
-                            child: pw.Text(data[i]["total"].toString()))),
-                  ]),
-            ),
-          ],
-        )
-      ]));
+            width: 150,
+            child:
+          pw.Text("producto")),
+        pw.Text("cantidad")
+        ])
+         );
+         widgets.add(pw.SizedBox(height: 5));
+       }
+       widgets.add( pw.Row(
+        mainAxisAlignment: pw.MainAxisAlignment.spaceAround,
+        children: [ 
+          pw.Container(
+            width: 150,
+            child:pw.Text(data[i]['productos'][j].toString())),
+        pw.Text(data[i]['cantidades'][j].toString()),
+       
+        ]));
+       estado=false;
+         
     }
 
+    }
+//*************** */*************** */*************** */*************** */*************** */
     final pdf = pw.Document();
     pdf.addPage(pw.MultiPage(
         pageFormat: PdfPageFormat.a4, build: (context) => widgets));

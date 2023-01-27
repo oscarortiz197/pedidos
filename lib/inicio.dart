@@ -15,6 +15,7 @@ class Inicio extends StatefulWidget {
 class _InicioState extends State<Inicio> {
   @override
   Widget build(BuildContext context) {
+    debugPrint("hola");
     return DefaultTabController(
       length: 3,
       child: Scaffold(

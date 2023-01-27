@@ -67,11 +67,11 @@ class DB {
           String sql =
               "insert into $tableProducto ($columnId, $columnNombre, $columnCosto, $columnPrecio )values (${i + 1}, '${Utilidades.productos[i]}', ${Utilidades.costos[i]}, ${Utilidades.precios[i]})";
           await db.rawInsert(sql);
-          DateTime myDate = DateTime(2023, 01, i); // verificar
-          String dateString = myDate.toString().substring(0, 10);
-          sql =
-              "insert into $tableEvento ( $columnfecha, $columnestado) values ('$dateString' , 1)";
-          await db.rawInsert(sql);
+          // DateTime myDate = DateTime(2023, 01, i); // verificar
+          // String dateString = myDate.toString().substring(0, 10);
+          // sql =
+          //     "insert into $tableEvento ( $columnfecha, $columnestado) values ('$dateString' , 1)";
+          // await db.rawInsert(sql);
         }
       },
     );
