@@ -18,7 +18,7 @@ class _DetallesState extends State<Detalles> {
   getDataFromDb() async {
     await _myDatabase.initializeDatabase();
     map = await _myDatabase
-        .getListaPedido(Utilidades.listaEncabezado[Utilidades.idEncabezado]);
+        .getListaPedido(Utilidades.listaEncabezado[Utilidades.idEncabezado!]);
 
     for (int i = 0; i < map.length; i++) {
       total += (map[i]["cantidad"] as int) * (map[i]["precio"] as double);
@@ -54,8 +54,9 @@ class _DetallesState extends State<Detalles> {
               children: [
                 IconButton(
                     onPressed: () {
-                      if (Utilidades.idEncabezado > 0) {
-                        Utilidades.idEncabezado -= 1;
+                      if (Utilidades.idEncabezado! > 0) {
+                        Utilidades.idEncabezado =
+                            (Utilidades.idEncabezado! - 1);
                         total = 0;
                         getDataFromDb();
                       } else {
@@ -111,10 +112,13 @@ class _DetallesState extends State<Detalles> {
                 ),
                 IconButton(
                   onPressed: () {
-                    if (Utilidades.listaEncabezado[Utilidades.idEncabezado] !=
+                    if (Utilidades
+                            .listaEncabezado[Utilidades.idEncabezado as int] !=
                         Utilidades.listaEncabezado[
                             Utilidades.listaEncabezado.length - 1]) {
-                      Utilidades.idEncabezado += 1;
+                      int? unidad = 1;
+                      Utilidades.idEncabezado =
+                          (Utilidades.idEncabezado! + unidad);
                       total = 0;
                       getDataFromDb();
                     } else {

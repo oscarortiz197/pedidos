@@ -31,6 +31,7 @@ class _EditarPedidoState extends State<EditarPedido> {
     for (int i = 0; i < map.length; i++) {
       productos.add(Producto.toEmp(map[i]));
     }
+    debugPrint(widget.anterior.toString());
     cantidades = List.filled(productos.length, 0);
     count = await _myDatabase.count_Producto();
 

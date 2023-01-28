@@ -34,9 +34,8 @@ class _EncabezadosState extends State<Encabezados> {
     for (int i = 0; i < map.length; i++) {
       encabezados.add(Encabezado.toEmp(map[i]));
       Utilidades.listaEncabezado.add(map[i]['id'] as int);
-      // print(map[i]);
     }
-    print(Utilidades.listaEncabezado);
+
     count = encabezados.length;
     setState(() {
       isLoading = false;
@@ -69,6 +68,8 @@ class _EncabezadosState extends State<Encabezados> {
                   itemBuilder: (context, index) {
                     return InkWell(
                       onLongPress: () async {
+                        Utilidades.idEncabezado = encabezados[index].id;
+
                         int resultado = await Alerta.dialogoOpciones(context);
                         if (resultado == 1) {
                           List<Map<String, Object?>> map;
@@ -83,6 +84,7 @@ class _EncabezadosState extends State<Encabezados> {
                           }
                           Utilidades.cliente = encabezados[index].cliente;
                           Utilidades.idEliminar = map[0]["idencabezado"] as int;
+                          // ignore: use_build_context_synchronously
                           Navigator.push(
                               context,
                               MaterialPageRoute(

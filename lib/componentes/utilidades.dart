@@ -2,10 +2,11 @@ class Utilidades {
   static int? idEvento = 0;
   static String fechaEvento = '';
   static String nombre = '';
-  static int idEncabezado = 0;
-  static List<int> listaEncabezado = [];
+  static int? idEncabezado = 0;
+  static List<int?> listaEncabezado = [];
   static int idEliminar = 0;
   static String cliente = '';
+  static bool recargarEncabezado = false;
 
   // datos por defecto base de datos
   static List<String> productos = [

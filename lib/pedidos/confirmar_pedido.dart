@@ -7,6 +7,7 @@ import 'package:pedidos/pedidos/nuevo_pedido.dart';
 //import 'package:pedidos/productos/lista_productos.dart';
 
 import '../componentes/texfield.dart';
+import '../listado/encabezados_pedidos.dart';
 import '../modelo/db.dart';
 import '../modelo/producto.dart';
 
@@ -34,6 +35,7 @@ class _ConfirmarPedidoState extends State<ConfirmarPedido> {
       _ClinteController.text = Utilidades.cliente;
       Utilidades.cliente = '';
     }
+
     super.initState();
     procesar();
   }
@@ -101,8 +103,21 @@ class _ConfirmarPedidoState extends State<ConfirmarPedido> {
             if (await guardar()) {
               Navigator.pop(context);
               Navigator.pop(context);
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const NuevoPedido()));
+              if (modificacion) {
+                Navigator.pop(context);
+
+                Utilidades.idEliminar = 0;
+                modificacion = false;
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const Encabezados()));
+              } else {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const NuevoPedido()));
+              }
             } else {
               Alerta.mensaje(
                   context, "Ingrese el nombre del cliente", Colors.red);
@@ -112,20 +127,28 @@ class _ConfirmarPedidoState extends State<ConfirmarPedido> {
     );
   }
 
+  bool modificacion = false;
   Future<bool> guardar() async {
     if (Utilidades.idEliminar != 0) {
       await widget.myDatabase.delete_Encabezado(
           Encabezado(id: Utilidades.idEliminar, idEvento: null, cliente: ""));
-      Utilidades.idEliminar = 0;
+
+      await widget.myDatabase.delete_Detalles(Detalle(
+          id: null,
+          idEncabezado: Utilidades.idEliminar,
+          idProducto: null,
+          cantidad: null));
+      modificacion = true;
     }
 
     if (_ClinteController.text.isEmpty) {
       return false;
     } else {
       Encabezado enc = Encabezado(
-          id: null,
+          id: modificacion ? Utilidades.idEliminar : null,
           idEvento: Utilidades.idEvento,
           cliente: _ClinteController.text);
+
       int idenc = await widget.myDatabase.insert_Encabezado(enc);
       if (idenc != 0) {
         for (int i = 0; i < widget.productos.length; i++) {
