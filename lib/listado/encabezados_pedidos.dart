@@ -163,7 +163,7 @@ class _EncabezadosState extends State<Encabezados> {
           mainAxisAlignment: pw.MainAxisAlignment.spaceAround,
           children: [
             pw.Text(data[i]['cliente']),
-            pw.Text('total \$' + data[i]['total'].toString())
+            pw.Text('total \$${data[i]['total']}')
           ]));
       widgets.add(pw.SizedBox(height: 5));
       widgets.add(pw.Row(
@@ -174,7 +174,6 @@ class _EncabezadosState extends State<Encabezados> {
           ]));
       widgets.add(pw.SizedBox(height: 5));
 
-      widgets.add(pw.Divider());
       for (int j = 0; j < data[i]["productos"].length; j++) {
         widgets.add(pw.Row(
             mainAxisAlignment: pw.MainAxisAlignment.spaceAround,
@@ -185,6 +184,7 @@ class _EncabezadosState extends State<Encabezados> {
               pw.Text(data[i]['cantidades'][j].toString()),
             ]));
       }
+      widgets.add(pw.Divider());
     }
 //*************** */*************** */*************** */*************** */*************** */
     final pdf = pw.Document();
