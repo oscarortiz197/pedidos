@@ -37,7 +37,7 @@ class _InicioState extends State<Inicio> {
                   )
                 ],
               ),
-             const Expanded(
+              const Expanded(
                 child: TabBarView(
                   children: [
                     const ListaEventos(),

@@ -4,7 +4,7 @@ class Utilidades {
   static String nombre = '';
   static int idEncabezado = 0;
   static List<int> listaEncabezado = [];
-  static int idEliminar=0;
+  static int idEliminar = 0;
   static String cliente = '';
 
   // datos por defecto base de datos
@@ -27,7 +27,7 @@ class Utilidades {
     'P.Comino',
     'Manzanilla 0.25',
     'Harina ',
-    'Achote ',
+    'Achote G ',
     'Relajo 0.25',
     'Anis',
     'P.Gorda',

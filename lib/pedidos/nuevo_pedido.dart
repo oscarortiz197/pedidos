@@ -32,7 +32,6 @@ class _NuevoPedidoState extends State<NuevoPedido> {
     cantidades = List.filled(productos.length, 0);
     count = await _myDatabase.count_Producto();
 
-    // print(productos);
     setState(() {
       isLoading = false;
     });
@@ -88,10 +87,10 @@ class _NuevoPedidoState extends State<NuevoPedido> {
                                   icon: const Icon(Icons.add)),
                               IconButton(
                                   onPressed: () async {
-                                    if(cantidades[index]==0){
-                                    num(true, index);
-                                    }else{
-                                      cantidades[index]=0;
+                                    if (cantidades[index] == 0) {
+                                      num(true, index);
+                                    } else {
+                                      cantidades[index] = 0;
                                     }
                                     setState(() {});
                                   },
@@ -131,13 +130,15 @@ class _NuevoPedidoState extends State<NuevoPedido> {
       }
     }
 
-    if (estado)  {
-    Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ConfirmarPedido(
-                          myDatabase: _myDatabase,cantidades: cantidades,productos: productos,
-                        )));                                         
+    if (estado) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ConfirmarPedido(
+                    myDatabase: _myDatabase,
+                    cantidades: cantidades,
+                    productos: productos,
+                  )));
     } else {
       Alerta.mensaje(context, "Selecciones un registro", Colors.red);
     }

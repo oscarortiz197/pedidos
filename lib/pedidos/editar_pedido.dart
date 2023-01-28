@@ -6,9 +6,9 @@ import 'package:pedidos/pedidos/confirmar_pedido.dart';
 import '../modelo/db.dart';
 
 class EditarPedido extends StatefulWidget {
-    List <Producto> anterior=[];
-    List can=[];
-   EditarPedido({super.key,required this.anterior,required this.can});
+  List<Producto> anterior = [];
+  List can = [];
+  EditarPedido({super.key, required this.anterior, required this.can});
 
   @override
   State<EditarPedido> createState() => _EditarPedidoState();
@@ -33,18 +33,15 @@ class _EditarPedidoState extends State<EditarPedido> {
     }
     cantidades = List.filled(productos.length, 0);
     count = await _myDatabase.count_Producto();
-  
-  for (int i = 0; i < widget.anterior.length; i++) {
-      for(int j=0;j<map.length;j++){
-      if(productos[j].id==widget.anterior[i].id){      
-        cantidades[j]=widget.can[i];
-      }
+
+    for (int i = 0; i < widget.anterior.length; i++) {
+      for (int j = 0; j < map.length; j++) {
+        if (productos[j].id == widget.anterior[i].id) {
+          cantidades[j] = widget.can[i];
+        }
       }
     }
-    print(widget.anterior);
-    print(widget.can);
 
-    // print(productos);
     setState(() {
       isLoading = false;
     });
@@ -100,10 +97,10 @@ class _EditarPedidoState extends State<EditarPedido> {
                                   icon: const Icon(Icons.add)),
                               IconButton(
                                   onPressed: () async {
-                                    if(cantidades[index]==0){
-                                    num(true, index);
-                                    }else{
-                                      cantidades[index]=0;
+                                    if (cantidades[index] == 0) {
+                                      num(true, index);
+                                    } else {
+                                      cantidades[index] = 0;
                                     }
                                     setState(() {});
                                   },
@@ -143,13 +140,15 @@ class _EditarPedidoState extends State<EditarPedido> {
       }
     }
 
-    if (estado)  {
-    Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ConfirmarPedido(
-                          myDatabase: _myDatabase,cantidades: cantidades,productos: productos,
-                        )));                                         
+    if (estado) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ConfirmarPedido(
+                    myDatabase: _myDatabase,
+                    cantidades: cantidades,
+                    productos: productos,
+                  )));
     } else {
       Alerta.mensaje(context, "Selecciones un registro", Colors.red);
     }
