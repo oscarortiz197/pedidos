@@ -190,6 +190,6 @@ class _EncabezadosState extends State<Encabezados> {
     final pdf = pw.Document();
     pdf.addPage(pw.MultiPage(
         pageFormat: PdfPageFormat.a4, build: (context) => widgets));
-    Printing.sharePdf(bytes: await pdf.save(), filename: 'example.pdf');
+    Printing.sharePdf(bytes: await pdf.save(), filename: 'pedido_cliente.pdf');
   }
 }

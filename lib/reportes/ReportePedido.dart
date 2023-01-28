@@ -86,81 +86,55 @@ class _ReportesState extends State<Reportes> {
             ),
       floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            List<pw.Widget>widgets=[];
+            List<pw.Widget> widgets = [];
             final pdf = pw.Document();
+            widgets.add(
+              pw.Center(
+                child: pw.Text(
+                  "PEDIDO PARA EL PROVEEDOR ${Utilidades.fechaEvento}",
+                  style: pw.TextStyle(
+                      fontSize: 16, fontWeight: pw.FontWeight.bold),
+                ),
+              ),
+            );
+            widgets.add(pw.SizedBox(height: 20));
+            widgets.add(pw.Table(children: [
+              pw.TableRow(children: [
+                pw.Row(
+                    mainAxisAlignment: pw.MainAxisAlignment.spaceAround,
+                    children: [
+                      pw.Container(width: 150, child: pw.Text("PRODUCTO")),
+                      pw.Text("CANTIDAD"),
+                    ]),
+              ]),
+            ]));
+            widgets.add(pw.Divider());
 
-            // pdf.addPage(pw.Page(
-            //     build: (pw.Context context) => pw.Column(children: [
-                     widgets.add( pw.Table(children: [
-                        pw.TableRow(children: [
-                          pw.Column(
-                              crossAxisAlignment: pw.CrossAxisAlignment.center,
-                              mainAxisAlignment: pw.MainAxisAlignment.center,
-                              children: [
-                                pw.Text(
-                                  "PEDIDO PARA EL PROVEEDOR ${Utilidades.fechaEvento}",
-                                  style: pw.TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: pw.FontWeight.bold),
-                                ),
-                                pw.SizedBox(height: 40)
-                              ]),
-                          pw.SizedBox(height: 15)
-                        ]),
-                        pw.TableRow(children: [
-                          pw.Column(
-                              crossAxisAlignment: pw.CrossAxisAlignment.center,
-                              mainAxisAlignment: pw.MainAxisAlignment.center,
-                              children: [
-                                pw.Text("PRODUCTO",
-                                    style: pw.TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: pw.FontWeight.bold)),
-                                pw.Divider(thickness: 1)
-                              ]),
-                          pw.Column(
-                              crossAxisAlignment: pw.CrossAxisAlignment.center,
-                              mainAxisAlignment: pw.MainAxisAlignment.center,
-                              children: [
-                                pw.Text("CANTIDAD",
-                                    style: pw.TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: pw.FontWeight.bold)),
-                                pw.Divider(thickness: 1)
-                              ])
-                        ]), 
-                     ]));
-                        for (var i = 0; i < producto.length; i++)
-                         widgets.add(pw.Table(children: [
-                          pw.TableRow(children: [
-                            pw.Column(
-                                crossAxisAlignment:
-                                    pw.CrossAxisAlignment.center,
-                                mainAxisAlignment: pw.MainAxisAlignment.center,
-                                children: [
-                                  pw.Text(producto[i],
-                                      style: const pw.TextStyle(fontSize: 12)),
-                                  pw.Divider(thickness: 1)
-                                ]),
-                            pw.Column(
-                                crossAxisAlignment:
-                                    pw.CrossAxisAlignment.center,
-                                mainAxisAlignment: pw.MainAxisAlignment.center,
-                                children: [
-                                  pw.Text(cantidad[i].toString(),
-                                      style: const pw.TextStyle(fontSize: 12)),
-                                  pw.Divider(thickness: 1)
-                                ]),
-                          ]),
-                          ]));
-                          widgets.add(
-                          pw.Text(
-                            "Total: $_costo",
-                          )
-                        );
-                     pdf.addPage(pw.MultiPage(build: (context) => widgets,));
+            for (var i = 0; i < producto.length; i++) {
+              // ignore: curly_braces_in_flow_control_structures
+              widgets.add(pw.Table(children: [
+                pw.TableRow(children: [
+                  pw.Row(
+                      mainAxisAlignment: pw.MainAxisAlignment.spaceAround,
+                      children: [
+                        pw.Container(
+                            width: 150, child: pw.Text(producto[i].toString())),
+                        pw.Text(cantidad[i].toString()),
+                      ]),
+                ]),
+              ]));
+              widgets.add(pw.Divider());
+            }
 
-            Printing.sharePdf(bytes: await pdf.save(), filename: 'example.pdf');
+            widgets.add(pw.Text(
+              "Total: $_costo",
+            ));
+            pdf.addPage(pw.MultiPage(
+              build: (context) => widgets,
+            ));
+
+            Printing.sharePdf(
+                bytes: await pdf.save(), filename: 'pedido_proveedor.pdf');
           },
           child: const Icon(Icons.print)),
     );
