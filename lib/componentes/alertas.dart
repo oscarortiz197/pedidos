@@ -32,7 +32,6 @@ class Alerta {
                   },
                   child: const Text('Editar'),
                 ),
-                
               ],
             ),
           ),
@@ -42,9 +41,7 @@ class Alerta {
     return opcion;
   }
 
-
-
-   static Future<int> dialogoOpcionesReporte(BuildContext context) async {
+  static Future<int> dialogoOpcionesReporte(BuildContext context) async {
     int opcion = 0;
     await showDialog(
       context: context,

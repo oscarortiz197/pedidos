@@ -14,8 +14,7 @@ class ConfirmarPedido extends StatefulWidget {
   final DB myDatabase;
   final List<Producto> productos;
   final List cantidades;
-  
-  
+
   const ConfirmarPedido(
       {super.key,
       required this.myDatabase,
@@ -31,19 +30,20 @@ class _ConfirmarPedidoState extends State<ConfirmarPedido> {
   @override
   void initState() {
     // TODO: implement initState
-    if (Utilidades.cliente!=""){
-        _ClinteController.text=Utilidades.cliente;
-        Utilidades.cliente='';
+    if (Utilidades.cliente != "") {
+      _ClinteController.text = Utilidades.cliente;
+      Utilidades.cliente = '';
     }
     super.initState();
     procesar();
   }
-  double total =0;
-  Map <String,dynamic> productos_select={};
-  
+
+  double total = 0;
+  Map<String, dynamic> productos_select = {};
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Confimar pedido"),
@@ -56,25 +56,28 @@ class _ConfirmarPedidoState extends State<ConfirmarPedido> {
               children: [
                 Texto(controller: _ClinteController, msj: "Nombre Cliente"),
                 Container(
-                  margin:const EdgeInsets.only(top: 45),
-                  height: 350,
+                  margin: const EdgeInsets.only(top: 45),
+                  height: size.height - 250,
                   child: ListView.builder(
                       itemBuilder: (context, index) {
                         if (widget.cantidades[index] > 0) {
                           return Card(
                             child: ListTile(
-                              title: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                Text(widget.cantidades[index].toString()),
-                                Text(widget.productos[index].nombre),
-
-                              ],)
-                              
-                            ),
+                                title: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                SizedBox(
+                                    width: 50,
+                                    child: Text(
+                                        widget.cantidades[index].toString())),
+                                SizedBox(
+                                    width: 150,
+                                    child:
+                                        Text(widget.productos[index].nombre)),
+                              ],
+                            )),
                           );
-                        } 
-                        else {
+                        } else {
                           return const Divider(
                             color: Colors.white,
                             height: 0,
@@ -84,6 +87,9 @@ class _ConfirmarPedidoState extends State<ConfirmarPedido> {
                       itemCount: widget.productos.length //productos.length,
                       ),
                 ),
+                const SizedBox(
+                  height: 20,
+                ),
                 Text("Total a pagar  $total")
               ],
             ),
@@ -91,59 +97,59 @@ class _ConfirmarPedidoState extends State<ConfirmarPedido> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: ()async {
-            
+          onPressed: () async {
             if (await guardar()) {
               Navigator.pop(context);
               Navigator.pop(context);
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const NuevoPedido()));
             } else {
-             Alerta.mensaje(context, "Ingrese el nombre del cliente", Colors.red);
+              Alerta.mensaje(
+                  context, "Ingrese el nombre del cliente", Colors.red);
             }
-            
           },
           child: const Icon(Icons.save)),
     );
   }
 
-  Future<bool> guardar()async {
-    if (Utilidades.idEliminar!=0){
-     await widget.myDatabase.delete_Encabezado(Encabezado(id: Utilidades.idEliminar, idEvento: null, cliente: ""));
-     Utilidades.idEliminar=0;
+  Future<bool> guardar() async {
+    if (Utilidades.idEliminar != 0) {
+      await widget.myDatabase.delete_Encabezado(
+          Encabezado(id: Utilidades.idEliminar, idEvento: null, cliente: ""));
+      Utilidades.idEliminar = 0;
     }
 
     if (_ClinteController.text.isEmpty) {
       return false;
     } else {
-      Encabezado enc = Encabezado(id: null, idEvento: Utilidades.idEvento, cliente: _ClinteController.text);
+      Encabezado enc = Encabezado(
+          id: null,
+          idEvento: Utilidades.idEvento,
+          cliente: _ClinteController.text);
       int idenc = await widget.myDatabase.insert_Encabezado(enc);
-      if(idenc!=0){
-      for (int i=0;i<widget.productos.length;i++){
-      if (widget.cantidades[i]>0){   
-         Detalle dt=Detalle(id: null, idEncabezado: idenc, idProducto: widget.productos[i].id, cantidad:widget.cantidades[i]);
-         await widget.myDatabase.insert_Detalle(dt);
-      }
-      }
+      if (idenc != 0) {
+        for (int i = 0; i < widget.productos.length; i++) {
+          if (widget.cantidades[i] > 0) {
+            Detalle dt = Detalle(
+                id: null,
+                idEncabezado: idenc,
+                idProducto: widget.productos[i].id,
+                cantidad: widget.cantidades[i]);
+            await widget.myDatabase.insert_Detalle(dt);
+          }
+        }
       }
 
-     // Detalle dt=Detalle(id: null, idEncabezado: idenc, idProducto: idProducto, cantidad: cantidad)
+      // Detalle dt=Detalle(id: null, idEncabezado: idenc, idProducto: idProducto, cantidad: cantidad)
       return true;
     }
   }
 
-  procesar(){
-   
-    for (int i=0;i<widget.productos.length;i++){
-      
-      if (widget.cantidades[i]>0){
-        
-         total+=widget.productos[i].precio!*widget.cantidades[i]!;
+  procesar() {
+    for (int i = 0; i < widget.productos.length; i++) {
+      if (widget.cantidades[i] > 0) {
+        total += widget.productos[i].precio! * widget.cantidades[i]!;
       }
-      
-
     }
   }
-
-
 }

@@ -79,24 +79,26 @@ class _DetallesState extends State<Detalles> {
                         style: const TextStyle(
                             fontWeight: FontWeight.w500, fontSize: 20),
                       )),
-                      Container(
-                        margin: EdgeInsets.only(top: 50, bottom: 50),
-                        height: size.height - 350,
-                        child: ListView.builder(
-                          itemBuilder: (context, index) {
-                            return Card(
-                              child: ListTile(
-                                  title: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Text(map[index]['cantidad'].toString()),
-                                  Text(map[index]['nombre'].toString()),
-                                ],
-                              )),
-                            );
-                          },
-                          itemCount: map.length,
+                      Center(
+                        child: Container(
+                          margin: const EdgeInsets.only(top: 50, bottom: 50),
+                          height: size.height - 350,
+                          child: ListView.builder(
+                            itemBuilder: (context, index) {
+                              return Card(
+                                child: ListTile(
+                                    title: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Text(map[index]['cantidad'].toString()),
+                                    Text(map[index]['nombre'].toString()),
+                                  ],
+                                )),
+                              );
+                            },
+                            itemCount: map.length,
+                          ),
                         ),
                       ),
                       Text(
