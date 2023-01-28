@@ -71,7 +71,9 @@ class _lista_productosState extends State<lista_productos> {
                                         producto_select: productos[index],
                                       )));
                           //print(result);
-                          if (result) {
+                          if (result == null) {
+                            // no hago nada
+                          } else if (result) {
                             setState(() {
                               getDataFromDb();
                             });
