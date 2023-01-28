@@ -54,37 +54,38 @@ class _LstaEventosState extends State<LstaEventos> {
                 )
               : ListView.builder(
                   itemBuilder: (context, index) {
-                    return
-                       InkWell(
-                        onLongPress: () async {
-                          int opcion = await Alerta.dialogoOpciones(context);
-                          if (opcion == 1) {
-                            datechoicer(opcion, index); // para actualizar
-                          }else if(opcion==2){
-                              if(await _myDatabase.delete_Evento(eventos[index])>0){
-                                Alerta.mensaje(context, "Evento Eliminado", Colors.red);
-                                getDataFromDb();
-                                setState(() {
-                                  
-                                });
-                              }
+                    return InkWell(
+                      onLongPress: () async {
+                        int opcion = await Alerta.dialogoOpciones(context);
+                        if (opcion == 1) {
+                          datechoicer(opcion, index); // para actualizar
+                        } else if (opcion == 2) {
+                          // ignore: use_build_context_synchronously
+                          if (await Alerta.borrar(context)) {
+                            if (await _myDatabase
+                                    .delete_Evento(eventos[index]) >
+                                0) {
+                              // ignore: use_build_context_synchronously
+                              Alerta.mensaje(
+                                  context, "Evento Eliminado", Colors.red);
+                              getDataFromDb();
+                              setState(() {});
+                            }
+                          }
                         }
-
-                        },
-                        child: Card(
-                          child: ListTile(
-                            onTap: () {
-                              Utilidades.fechaEvento=eventos[index].fecha;
-                              Utilidades.idEvento = eventos[index].id;
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const NuevoPedido()));
-                            },
-                            title: Text('Entrega ${eventos[index].fecha}'),
-                          ),
-                       
+                      },
+                      child: Card(
+                        child: ListTile(
+                          onTap: () {
+                            Utilidades.fechaEvento = eventos[index].fecha;
+                            Utilidades.idEvento = eventos[index].id;
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const NuevoPedido()));
+                          },
+                          title: Text('Entrega ${eventos[index].fecha}'),
+                        ),
                       ),
                     );
                   },
