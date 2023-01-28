@@ -71,24 +71,25 @@ class _EncabezadosState extends State<Encabezados> {
                       onLongPress: () async {
                         int resultado = await Alerta.dialogoOpciones(context);
                         if (resultado == 1) {
-                          List<Map<String,Object?>> map;
-                          List<Producto> productos=[];
-                          List can=[];
-                          
-                            map= await _myDatabase.getListaPedidoEventoCliente1();
+                          List<Map<String, Object?>> map;
+                          List<Producto> productos = [];
+                          List can = [];
+
+                          map =
+                              await _myDatabase.getListaPedidoEventoCliente1();
                           for (int i = 0; i < map.length; i++) {
                             productos.add(Producto.toEmp(map[i]));
                             can.add(map[i]['cantidad']);
                           }
-                          Utilidades.cliente=encabezados[index].cliente;
-                          Utilidades.idEliminar=map[0]["idencabezado"]as int;
-                         Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>  EditarPedido(anterior: productos,can: can,)));
-
-
-
+                          Utilidades.cliente = encabezados[index].cliente;
+                          Utilidades.idEliminar = map[0]["idencabezado"] as int;
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditarPedido(
+                                        anterior: productos,
+                                        can: can,
+                                      )));
                         } else if (resultado == 2) {
                           if (await _myDatabase
                                   .delete_Encabezado(encabezados[index]) >
@@ -150,42 +151,40 @@ class _EncabezadosState extends State<Encabezados> {
     }
 
     List<pw.Widget> widgets = [];
-   
-//*********************** */*************** */*************** */
-widgets.add(pw.Center(child: pw.Text("FECHA DE ENTREGA "+Utilidades.fechaEvento.toString())));
-widgets.add(pw.SizedBox(height: 10));
-    for (int i = 0; i < data.length; i++){
-      bool estado=true;
-    widgets.add(pw.Divider());
-        for (int j = 0; j < data[i]["productos"].length; j++){
-         
-       if( estado){
-         widgets.add(pw.SizedBox(height: 2));
-         widgets.add(pw.Row(mainAxisAlignment: pw.MainAxisAlignment.spaceAround, children: [ pw.Text(data[i]['cliente']),pw.Text('total \$'+data[i]['total'].toString()) ])); 
-         widgets.add(pw.SizedBox(height: 5));
-        widgets.add(pw.Row(mainAxisAlignment: pw.MainAxisAlignment.spaceAround, children: [
-          pw.Container(
-            width: 150,
-            child:
-          pw.Text("producto")),
-        pw.Text("cantidad")
-        ])
-         );
-         widgets.add(pw.SizedBox(height: 5));
-       }
-       widgets.add( pw.Row(
-        mainAxisAlignment: pw.MainAxisAlignment.spaceAround,
-        children: [ 
-          pw.Container(
-            width: 150,
-            child:pw.Text(data[i]['productos'][j].toString())),
-        pw.Text(data[i]['cantidades'][j].toString()),
-       
-        ]));
-       estado=false;
-         
-    }
 
+//*********************** */*************** */*************** */
+    widgets.add(pw.Center(
+        child:
+            pw.Text("FECHA DE ENTREGA " + Utilidades.fechaEvento.toString())));
+    widgets.add(pw.SizedBox(height: 10));
+    for (int i = 0; i < data.length; i++) {
+      widgets.add(pw.SizedBox(height: 2));
+      widgets.add(pw.Row(
+          mainAxisAlignment: pw.MainAxisAlignment.spaceAround,
+          children: [
+            pw.Text(data[i]['cliente']),
+            pw.Text('total \$' + data[i]['total'].toString())
+          ]));
+      widgets.add(pw.SizedBox(height: 5));
+      widgets.add(pw.Row(
+          mainAxisAlignment: pw.MainAxisAlignment.spaceAround,
+          children: [
+            pw.Container(width: 150, child: pw.Text("producto")),
+            pw.Text("cantidad")
+          ]));
+      widgets.add(pw.SizedBox(height: 5));
+
+      widgets.add(pw.Divider());
+      for (int j = 0; j < data[i]["productos"].length; j++) {
+        widgets.add(pw.Row(
+            mainAxisAlignment: pw.MainAxisAlignment.spaceAround,
+            children: [
+              pw.Container(
+                  width: 150,
+                  child: pw.Text(data[i]['productos'][j].toString())),
+              pw.Text(data[i]['cantidades'][j].toString()),
+            ]));
+      }
     }
 //*************** */*************** */*************** */*************** */*************** */
     final pdf = pw.Document();
