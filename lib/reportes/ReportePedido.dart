@@ -1,13 +1,6 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-import 'package:pdf/pdf.dart';
-
-import 'package:pedidos/componentes/alertas.dart';
 import 'package:pedidos/componentes/utilidades.dart';
-import 'package:pedidos/main.dart';
 import 'package:pedidos/modelo/db.dart';
-import 'dart:io';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
@@ -58,12 +51,19 @@ class _ReportesState extends State<Reportes> {
                             itemBuilder: (context, index) {
                               return Card(
                                 child: ListTile(
+                                    // arreglar esto
                                     title: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
-                                    Text(cantidad[index].toString()),
-                                    Text(producto[index]),
+                                    SizedBox(
+                                      width: 50,
+                                      child: Text(cantidad[index].toString()),
+                                    ),
+                                    SizedBox(
+                                      width: 150,
+                                      child: Text(producto[index].toString()),
+                                    ),
                                   ],
                                 )),
                               );
@@ -100,12 +100,18 @@ class _ReportesState extends State<Reportes> {
             widgets.add(pw.SizedBox(height: 20));
             widgets.add(pw.Table(children: [
               pw.TableRow(children: [
-                pw.Row(
-                    mainAxisAlignment: pw.MainAxisAlignment.spaceAround,
-                    children: [
-                      pw.Container(width: 150, child: pw.Text("PRODUCTO")),
-                      pw.Text("CANTIDAD"),
-                    ]),
+                pw.Container(
+                  alignment: pw.Alignment.center,
+                  child: pw.Row(
+                      mainAxisAlignment: pw.MainAxisAlignment.spaceAround,
+                      children: [
+                        pw.Container(width: 200, child: pw.Text("CANTIDAD")),
+                        pw.Container(
+                          width: 200,
+                          child: pw.Text("PRODUCTO"),
+                        )
+                      ]),
+                ),
               ]),
             ]));
             widgets.add(pw.Divider());
@@ -118,8 +124,11 @@ class _ReportesState extends State<Reportes> {
                       mainAxisAlignment: pw.MainAxisAlignment.spaceAround,
                       children: [
                         pw.Container(
-                            width: 150, child: pw.Text(producto[i].toString())),
-                        pw.Text(cantidad[i].toString()),
+                            width: 150, child: pw.Text(cantidad[i].toString())),
+                        pw.Container(
+                          width: 150,
+                          child: pw.Text(producto[i].toString()),
+                        ),
                       ]),
                 ]),
               ]));
