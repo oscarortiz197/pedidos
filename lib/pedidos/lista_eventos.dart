@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_datetime_picker_bdaya/flutter_datetime_picker_bdaya.dart';
 import 'package:pedidos/componentes/utilidades.dart';
-import 'package:pedidos/reportes/ReportePedido.dart';
 import 'package:pedidos/modelo/eventos.dart';
 import 'package:pedidos/pedidos/nuevo_pedido.dart';
-import 'package:sqflite/sqflite.dart';
-
 import '../componentes/alertas.dart';
 import '../modelo/db.dart';
 
@@ -99,13 +96,38 @@ class _LstaEventosState extends State<LstaEventos> {
     );
   }
 
+  // datechoicer(int opcion, int index) {
+  //   0 insertar 1 editar
+  //   int year = DateTime.now().year;
+  //   DatePicker.showDatePicker(context,
+  //       showTitleActions: true,
+  //       minTime: DateTime(year, 1, 1),
+  //       maxTime: DateTime(year + 1, 12, 31),
+  //       onChanged: (date) {}, onConfirm: (date) {
+  //     // realizar insert y cerrar
+  //     String dateString = date.toString().substring(0, 10);
+  //     (opcion == 0) // 0 insertar 1 editar
+  //         ? guardarEvento(dateString, _myDatabase)
+  //         : editarEvento(dateString, index, _myDatabase);
+  //   }, currentTime: DateTime.now(), locale: LocaleType.es);
+  // }
+
   datechoicer(int opcion, int index) {
-    // 0 insertar 1 editar
+    //   0 insertar 1 editar
     int year = DateTime.now().year;
-    DatePicker.showDatePicker(context,
+    DatePickerBdaya.showDatePicker(context,
         showTitleActions: true,
         minTime: DateTime(year, 1, 1),
         maxTime: DateTime(year + 1, 12, 31),
+        theme: const DatePickerThemeBdaya(
+          headerColor: Colors.white,
+          backgroundColor: Colors.white,
+          itemStyle: TextStyle(
+              color: Color.fromARGB(255, 3, 29, 75),
+              fontWeight: FontWeight.bold,
+              fontSize: 18),
+          doneStyle: TextStyle(color: Colors.blueAccent, fontSize: 16),
+        ),
         onChanged: (date) {}, onConfirm: (date) {
       // realizar insert y cerrar
       String dateString = date.toString().substring(0, 10);

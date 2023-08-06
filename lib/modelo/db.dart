@@ -230,7 +230,7 @@ class DB {
     //
     // List<Map<String, Object?>> result = await _database.rawQuery('SELECT * FROM $tableProducto');
     List<Map<String, Object?>> result =
-        await _database.query(tableDetalle, orderBy: columnId + " desc");
+        await _database.query(tableDetalle, orderBy: "$columnId desc");
     return result;
   }
 

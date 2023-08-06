@@ -26,6 +26,7 @@ class _DetallesState extends State<Detalles> {
     setState(() {});
   }
 
+  @override
   void initState() {
     // ignore: todo
     // TODO: implement initState

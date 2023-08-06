@@ -16,14 +16,14 @@ class _InicioState extends State<Inicio> {
   @override
   Widget build(BuildContext context) {
     debugPrint("hola");
-    return DefaultTabController(
+    return const DefaultTabController(
       length: 3,
       child: Scaffold(
         body: SafeArea(
           child: Column(
             // ignore: prefer_const_literals_to_create_immutables
             children: [
-              const TabBar(
+              TabBar(
                 labelColor: Colors.black,
                 tabs: [
                   Tab(
@@ -37,12 +37,12 @@ class _InicioState extends State<Inicio> {
                   )
                 ],
               ),
-              const Expanded(
+              Expanded(
                 child: TabBarView(
                   children: [
-                    const ListaEventos(),
-                    const LstaEventos(),
-                    const lista_productos(),
+                    ListaEventos(),
+                    LstaEventos(),
+                    lista_productos(),
                   ],
                 ),
               ),

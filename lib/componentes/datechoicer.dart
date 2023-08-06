@@ -1,42 +1,42 @@
-import "package:flutter_datetime_picker/flutter_datetime_picker.dart";
+import 'package:flutter_datetime_picker_bdaya/flutter_datetime_picker_bdaya.dart';
 
 class CustomPicker extends CommonPickerModel {
   String digits(int value, int length) {
     return '$value'.padLeft(length, "0");
   }
 
-  CustomPicker({required DateTime currentTime, required LocaleType locale})
+  CustomPicker({DateTime? currentTime, LocaleType? locale})
       : super(locale: locale) {
-    this.currentTime = currentTime;
+    this.currentTime = currentTime ?? DateTime.now();
     setLeftIndex(this.currentTime.hour);
     setMiddleIndex(this.currentTime.minute);
     setRightIndex(this.currentTime.second);
   }
 
   @override
-  String leftStringAtIndex(int index) {
-    if (index >= 0 && index < 48) {
+  String? leftStringAtIndex(int index) {
+    if (index >= 0 && index < 24) {
       return digits(index, 2);
     } else {
-      return "";
+      return null;
     }
   }
 
   @override
-  String middleStringAtIndex(int index) {
+  String? middleStringAtIndex(int index) {
     if (index >= 0 && index < 60) {
       return digits(index, 2);
     } else {
-      return "";
+      return null;
     }
   }
 
   @override
-  String rightStringAtIndex(int index) {
+  String? rightStringAtIndex(int index) {
     if (index >= 0 && index < 60) {
       return digits(index, 2);
     } else {
-      return "";
+      return null;
     }
   }
 

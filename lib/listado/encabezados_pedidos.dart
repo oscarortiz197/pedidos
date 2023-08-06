@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
@@ -7,7 +5,6 @@ import 'package:pedidos/componentes/alertas.dart';
 import 'package:pedidos/componentes/utilidades.dart';
 import 'package:pedidos/listado/detalles.dart';
 import 'package:pedidos/modelo/encabazo_pedido.dart';
-import 'package:pedidos/modelo/eventos.dart';
 import 'package:pedidos/modelo/producto.dart';
 import 'package:pedidos/pedidos/editar_pedido.dart';
 import 'package:printing/printing.dart';
@@ -157,7 +154,7 @@ class _EncabezadosState extends State<Encabezados> {
 //*********************** */*************** */*************** */
     widgets.add(pw.Center(
         child:
-            pw.Text("FECHA DE ENTREGA " + Utilidades.fechaEvento.toString())));
+            pw.Text("FECHA DE ENTREGA ${Utilidades.fechaEvento}")));
     widgets.add(pw.SizedBox(height: 10));
     for (int i = 0; i < data.length; i++) {
       widgets.add(pw.SizedBox(height: 2));

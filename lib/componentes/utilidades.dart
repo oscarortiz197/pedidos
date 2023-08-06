@@ -44,7 +44,19 @@ class Utilidades {
     'Chan Con Fesa ',
     'Vainilla',
     'Chile Ciruela',
-    'Pimientilla'
+    'Pimientilla',
+    'Hilo Blanco',
+    'Hilo Negro',
+    'Hilo Colores',
+    'Chan Sólo',
+    'Galón Vinagre',
+    'Orégano',
+    'Canela 0.25',
+    'Algodón',
+    'Mostacilla',
+    'Alucema',
+    'Chocolate',
+    'Chile Guaco'
   ];
   static List<double> costos = [
     0.75,
@@ -76,11 +88,23 @@ class Utilidades {
     0.75,
     0.75,
     1.5,
-    1.5,
-    0.5,
+    0.75,
+    0.75,
     0.75,
     0.75,
     1.5,
+    0.75,
+    0.75,
+    0.75,
+    0.75,
+    0.75,
+    0.75,
+    0.75,
+    0.75,
+    0.75,
+    0.75,
+    0.75,
+    0.80,
     0.75
   ];
 
@@ -114,11 +138,23 @@ class Utilidades {
     1.00,
     1.00,
     2.00,
+    1.00,
+    1.00,
+    1.00,
+    1.00,
     2.00,
     1.00,
     1.00,
     1.00,
-    2.00,
-    .001
+    1.00,
+    1.00,
+    1.00,
+    1.00,
+    1.00,
+    1.00,
+    1.00,
+    1.00,
+    1.00,
+    1.00
   ];
 }

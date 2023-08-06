@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pedidos/componentes/alertas.dart';
-import 'package:pedidos/inicio.dart';
 import 'package:pedidos/modelo/producto.dart';
 import 'package:pedidos/productos/editar_producto.dart';
 import 'package:pedidos/productos/nuevo_producto.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../modelo/db.dart';
 
