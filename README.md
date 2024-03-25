@@ -37,10 +37,9 @@ Uso cotidiano para toma de pedidos y cálculo de pedido al proveedor
   <img src="lib/imagenes_repositorio/listado_pedidos.jpeg" alt="listado de pedidos" width="187" height="400">
  <img src="lib/imagenes_repositorio/producto_pedido.jpeg" alt=" listado de productos para toma de pedido " width="187" height="400">
  <img src="lib/imagenes_repositorio/pantalla_confirmacion.jpeg" alt="confirmacion y detallar nombre de cliente" width="187" height="400">
+<br>
  flujo 3: listado de productos para administracion - eliminar con alerta - ver y/o editar informacion del producto: nombre, precio, costo
-
-   <img src="lib/imagenes_repositorio/administracion_producto.jpeg" alt="administracion_producto" width="187" height="400">
- <img src="lib/imagenes_repositorio/detalle_productpo.jpeg" alt="detalle_productpo" width="187" height="400">
+<img src="lib/imagenes_repositorio/administracion_producto.jpeg" alt="administracion_producto" width="187" height="400"> <img src="lib/imagenes_repositorio/detalle_productpo.jpeg" alt="detalle_productpo" width="187" height="400">
 
 5-	Recopilación de requerimientos técnicos 
 -	Editor de código: visual studio code 
