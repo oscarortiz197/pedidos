@@ -11,7 +11,7 @@ cod	~ descripcion ~	Costo ~	Precio de venta
 
 -	Ser capaz de almacenar los pedidos contando para ello con una tabla (o más) en la base de datos adecuada, algunos elementos de información que será necesario almacenar para cada pedido son: nombre del cliente, en detalle de los productos que el cliente ha pedido y las cantidades para cada uno. 
 
--	Realizar un pedido destinado al proveedor para poder comprar todos los productos y cantidades que los clientes hayan encargado que se p[ueda compartir por whatsapp un PDF
+-	Realizar un pedido destinado al proveedor para poder comprar todos los productos y cantidades que los clientes hayan encargado que se pueda compartir por whatsapp un PDF
 
 -	Exportar la información de los pedidos tomados para un evento(el día de entrega) en formato txt o por mensaje atravez de whatsap 
 
@@ -27,7 +27,11 @@ Uso cotidiano para toma de pedidos y cálculo de pedido al proveedor
 
 4-	Interfaz de usuario 
  flujo 1:  listado de entregas - listado de pedidos - detalle de pedido desplazable 
+ ![listado de entregas](lib/imagenes_repositorio/listado_entrega.png)
+ ![listado de pedidos ](lib/imagenes_repositorio/listado_pedidos.jpeg)
+ ![detalle de pedido desplazable](lib/imagenes_repositorio/listado_pedidos.jpeg)
  
+
  flujo 2: listado de pedidos - listado de productos para toma de pedido - confirmacion y detallar nombre de cliente
  
  flujo 3: listado de productos para administracion - eliminar con alerta - ver y/o editar informacion del producto: nombre, precio, costo
