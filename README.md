@@ -20,8 +20,10 @@ cod	~ descripcion ~	Costo ~	Precio de venta
 
 2-	Análisis de mercado 
 No aplica, la aplicación es para practica y será usada solo por un usuario, sin embargo, la aplicación será usada en la vida real con datos reales por lo que en el futuro podría ser comercializada y en el rubro del comercio de mercancías
+
 3-	Definición de alcance 
 Uso cotidiano para toma de pedidos y cálculo de pedido al proveedor 
+
 4-	Interfaz de usuario 
  flujo 1:  listado de entregas - listado de pedidos - detalle de pedido desplazable 
  flujo 2: listado de pedidos - listado de productos para toma de pedido - confirmacion y detallar nombre de cliente
