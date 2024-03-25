@@ -26,18 +26,21 @@ No aplica, la aplicación es para practica y será usada solo por un usuario, si
 Uso cotidiano para toma de pedidos y cálculo de pedido al proveedor 
 
 4-	Interfaz de usuario 
- flujo 1:  listado de entregas - listado de pedidos - detalle de pedido desplazable 
+ flujo 1:  listado de entregas - listado de pedidos entrega - detalle de pedido desplazable 
  <img src="lib/imagenes_repositorio/listado_entrega.jpeg" alt="listado de entregas" width="187" height="400">
- <img src="lib/imagenes_repositorio/listado_pedidos.jpeg" alt="listado de pedidos " width="187" height="400">
+ <img src="lib/imagenes_repositorio/pedidos_entrega.jpeg" alt="listado de pedidos entrega " width="187" height="400">
  <img src="lib/imagenes_repositorio/detalle_pedido_desplazable.jpeg" alt="detalle de pedido desplazable" width="187" height="400">
 
 
 
  flujo 2: listado de pedidos - listado de productos para toma de pedido - confirmacion y detallar nombre de cliente
- 
+  <img src="lib/imagenes_repositorio/listado_pedidos.jpeg" alt="listado de pedidos" width="187" height="400">
+ <img src="lib/imagenes_repositorio/producto_pedido.jpeg" alt=" listado de productos para toma de pedido " width="187" height="400">
+ <img src="lib/imagenes_repositorio/pantalla_confirmacion.jpeg" alt="confirmacion y detallar nombre de cliente" width="187" height="400">
  flujo 3: listado de productos para administracion - eliminar con alerta - ver y/o editar informacion del producto: nombre, precio, costo
-   
 
+   <img src="lib/imagenes_repositorio/administracion_producto.jpeg" alt="administracion_producto" width="187" height="400">
+ <img src="lib/imagenes_repositorio/detalle_productpo.jpeg" alt="detalle_productpo" width="187" height="400">
 
 5-	Recopilación de requerimientos técnicos 
 -	Editor de código: visual studio code 
