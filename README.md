@@ -26,7 +26,9 @@ Uso cotidiano para toma de pedidos y cálculo de pedido al proveedor
 
 4-	Interfaz de usuario 
  flujo 1:  listado de entregas - listado de pedidos - detalle de pedido desplazable 
+ 
  flujo 2: listado de pedidos - listado de productos para toma de pedido - confirmacion y detallar nombre de cliente
+ 
  flujo 3: listado de productos para administracion - eliminar con alerta - ver y/o editar informacion del producto: nombre, precio, costo
    
 
