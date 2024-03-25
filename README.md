@@ -27,7 +27,7 @@ Uso cotidiano para toma de pedidos y cálculo de pedido al proveedor
 
 4-	Interfaz de usuario 
  flujo 1:  listado de entregas - listado de pedidos - detalle de pedido desplazable 
- <img src="lib/imagenes_repositorio/listado_entrega.png" alt="listado de entregas" width="187" height="400">
+ <img src="lib/imagenes_repositorio/listado_entrega.jpeg" alt="listado de entregas" width="187" height="400">
  <img src="lib/imagenes_repositorio/listado_pedidos.jpeg" alt="listado de pedidos " width="187" height="400">
  <img src="lib/imagenes_repositorio/detalle_pedido_desplazable.jpeg" alt="detalle de pedido desplazable" width="187" height="400">
 
