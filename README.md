@@ -1,6 +1,7 @@
 # pedidos
 
 Aplicación: App de pedidos 
+
 1-	Objetivos de la app: 
 -	Tener una base de datos de los productos que se comercializan 
 Por ejemplo: 
